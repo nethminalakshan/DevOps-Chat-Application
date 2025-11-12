@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:7.0
+    container_name: chat-app-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: chat-app
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - chat-app-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Service
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: chat-app-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      # Using MongoDB Atlas from your .env file
+      MONGODB_URI: mongodb+srv://nethminalakshan2018_db_user:0764986150@chatapplicationdb.zlquwap.mongodb.net/chat-app?retryWrites=true&w=majority
+      JWT_SECRET: ec821c8f5c10a9536fae05b68ccc565129389b862806441b9444bf598efa74285375967f3a32fd5d4da2c0ebfde60145f86d188221a4e2efa43896f2b8bc7f7f
+      SESSION_SECRET: ec821c8f5c10a9536fae05b68ccc565129389b862806441b9444bf598efa74285375967f3a32fd5d4da2c0ebfde60145f86d188221a4e2efa43896f2b8bc7f7f
+      CLIENT_URL: http://localhost:3000
+      GOOGLE_CLIENT_ID: 563521387761-s6008ucnkmnq9hst7799kp0is89n56b6.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_CALLBACK_URL: http://localhost:5000/api/auth/google/callback
+      GITHUB_CLIENT_ID: Ov23liGFqdvFV34eGEaN
+      GITHUB_CLIENT_SECRET: 2404ac37d48cf8c421045f4e79588afa968ecdb5
+      GITHUB_CALLBACK_URL: http://localhost:5000/api/auth/github/callback
+      MAX_FILE_SIZE: 5242880
+      ALLOWED_FILE_TYPES: image/jpeg,image/png,image/gif,image/webp,application/pdf
+    volumes:
+      - ./server/uploads:/app/uploads
+    networks:
+      - chat-app-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: chat-app-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - chat-app-network
+
+networks:
+  chat-app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
