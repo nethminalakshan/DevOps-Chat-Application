@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Docker Hub credentials (configure in Jenkins credentials)
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_HUB_USERNAME = 'nethminalakshan'  // Change to your Docker Hub username
+        DOCKER_HUB_USERNAME = 'nlh29060'  // Change to your Docker Hub username
         
         // Application configuration
         BACKEND_IMAGE = "${DOCKER_HUB_USERNAME}/chat-app-backend"
