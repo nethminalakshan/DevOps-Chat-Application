@@ -79,7 +79,7 @@ wsl docker-compose -f jenkins-docker-compose.yml up -d
 
 ### 3. Access Jenkins
 
-Open: http://localhost:8080
+Open: http://localhost:8090
 
 ### 4. Complete Setup
 
@@ -156,7 +156,7 @@ Using the PowerShell script:
 
 3. **GitHub Webhook** (optional, for auto-builds):
    - Repository Settings → Webhooks
-   - Add: `http://your-jenkins-url:8080/github-webhook/`
+   - Add: `http://your-jenkins-url:8090/github-webhook/`
 
 ### Environment Variables
 
@@ -192,7 +192,7 @@ Add to Jenkins credentials if needed:
 .\jenkins.ps1 logs
 
 # Check if port 8080 is in use
-netstat -ano | findstr :8080
+netstat -ano | findstr :8090
 ```
 
 ### Build fails

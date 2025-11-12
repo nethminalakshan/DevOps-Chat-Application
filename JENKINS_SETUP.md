@@ -58,7 +58,7 @@ docker volume create jenkins_home
 # Run Jenkins container
 docker run -d \
   --name jenkins \
-  -p 8080:8080 \
+  -p 8090:8080 \
   -p 50000:50000 \
   -v jenkins_home:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
@@ -83,7 +83,7 @@ services:
     privileged: true
     user: root
     ports:
-      - "8080:8080"
+  - "8090:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
@@ -106,7 +106,7 @@ docker-compose -f jenkins-docker-compose.yml up -d
 
 ### 1. Initial Setup
 
-1. Access Jenkins at `http://localhost:8080`
+1. Access Jenkins at `http://localhost:8090`
 2. Enter the initial admin password
 3. Install suggested plugins
 4. Create admin user
@@ -220,7 +220,7 @@ environment {
 1. Go to your GitHub repository
 2. Click **Settings** → **Webhooks** → **Add webhook**
 3. Configure:
-   - Payload URL: `http://YOUR_JENKINS_URL:8080/github-webhook/`
+  - Payload URL: `http://YOUR_JENKINS_URL:8090/github-webhook/`
    - Content type: `application/json`
    - Events: `Just the push event`
    - ✓ Active

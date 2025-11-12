@@ -31,5 +31,5 @@ docker --version
 docker-compose --version
 
 echo "Jenkins setup complete!"
-echo "Access Jenkins at http://localhost:8080"
+echo "Access Jenkins at http://localhost:8090"
 echo "Get initial password with: docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword"

@@ -370,7 +370,7 @@ wsl docker-compose -f jenkins-docker-compose.yml up -d
 # Get initial password
 wsl docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword
 
-# Access Jenkins at http://localhost:8080
+# Access Jenkins at http://localhost:8090
 ```
 
 ### Documentation

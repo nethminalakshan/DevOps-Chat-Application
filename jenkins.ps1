@@ -33,7 +33,7 @@ Examples:
   .\jenkins.ps1 password
 
 After starting Jenkins:
-  1. Access at http://localhost:8080
+    1. Access at http://localhost:8090
   2. Get password: .\jenkins.ps1 password
   3. Complete web setup
   4. Setup Docker: .\jenkins.ps1 setup
@@ -46,7 +46,7 @@ function Start-Jenkins {
     
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✓ Jenkins started successfully!" -ForegroundColor Green
-        Write-Host "Access Jenkins at: http://localhost:8080" -ForegroundColor Cyan
+    Write-Host "Access Jenkins at: http://localhost:8090" -ForegroundColor Cyan
         Write-Host "Get password with: .\jenkins.ps1 password" -ForegroundColor Yellow
     } else {
         Write-Host "✗ Failed to start Jenkins" -ForegroundColor Red
@@ -96,7 +96,7 @@ Initial Admin Password:
 $password
 ======================
 " -ForegroundColor Green
-        Write-Host "Copy this password and paste it at http://localhost:8080" -ForegroundColor Yellow
+    Write-Host "Copy this password and paste it at http://localhost:8090" -ForegroundColor Yellow
     } else {
         Write-Host "✗ Could not get password. Is Jenkins running?" -ForegroundColor Red
         Write-Host "Start Jenkins with: .\jenkins.ps1 start" -ForegroundColor Yellow

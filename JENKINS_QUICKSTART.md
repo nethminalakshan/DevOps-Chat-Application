@@ -20,7 +20,7 @@ wsl docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPasswor
 
 ### 3. Access Jenkins
 
-Open browser: http://localhost:8080
+Open browser: http://localhost:8090
 
 ### 4. Complete Setup
 

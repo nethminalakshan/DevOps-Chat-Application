@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Docker Hub credentials (configure in Jenkins credentials)
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_HUB_USERNAME = 'your-dockerhub-username'
+        DOCKER_HUB_USERNAME = 'nethminalakshan'  // Change to your Docker Hub username
         
         // Application configuration
         BACKEND_IMAGE = "${DOCKER_HUB_USERNAME}/chat-app-backend"
@@ -14,13 +14,12 @@ pipeline {
         // Node version
         NODE_VERSION = '20'
         
-        // Environment files
-        ENV_FILE = credentials('chat-app-env-file')
+        // Environment files (optional, comment out if not using)
+        // ENV_FILE = credentials('chat-app-env-file')
     }
     
-    tools {
-        nodejs "NodeJS ${NODE_VERSION}"
-    }
+    // Note: We run Node.js commands inside a Docker container (node:20),
+    // so no Jenkins NodeJS tool/plugin is required.
     
     stages {
         stage('Checkout') {
@@ -40,16 +39,28 @@ pipeline {
                 stage('Backend Dependencies') {
                     steps {
                         dir('server') {
-                            echo 'Installing backend dependencies...'
-                            sh 'npm ci'
+                            echo 'Installing backend dependencies (Dockerized Node 20)...'
+                            sh '''
+                                docker run --rm \
+                                  -v "$PWD":/workspace \
+                                  -w /workspace \
+                                  node:20 \
+                                  npm ci
+                            '''
                         }
                     }
                 }
                 stage('Frontend Dependencies') {
                     steps {
                         dir('client') {
-                            echo 'Installing frontend dependencies...'
-                            sh 'npm ci'
+                            echo 'Installing frontend dependencies (Dockerized Node 20)...'
+                            sh '''
+                                docker run --rm \
+                                  -v "$PWD":/workspace \
+                                  -w /workspace \
+                                  node:20 \
+                                  npm ci
+                            '''
                         }
                     }
                 }
@@ -105,8 +116,14 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('client') {
-                    echo 'Building frontend application...'
-                    sh 'npm run build'
+                    echo 'Building frontend application (Dockerized Node 20)...'
+                    sh '''
+                        docker run --rm \
+                          -v "$PWD":/workspace \
+                          -w /workspace \
+                          node:20 \
+                          npm run build
+                    '''
                 }
             }
         }
@@ -118,9 +135,10 @@ pipeline {
                         script {
                             echo 'Building backend Docker image...'
                             sh """
+                                cd server
                                 docker build -t ${BACKEND_IMAGE}:${IMAGE_TAG} \
                                              -t ${BACKEND_IMAGE}:latest \
-                                             ./server
+                                             .
                             """
                         }
                     }
@@ -130,9 +148,10 @@ pipeline {
                         script {
                             echo 'Building frontend Docker image...'
                             sh """
+                                cd client
                                 docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} \
                                              -t ${FRONTEND_IMAGE}:latest \
-                                             ./client
+                                             .
                             """
                         }
                     }
@@ -192,8 +211,8 @@ pipeline {
                 script {
                     echo 'Deploying to development environment...'
                     sh '''
-                        docker-compose -f docker-compose.yml down
-                        docker-compose -f docker-compose.yml up -d
+                        docker compose -f docker-compose.yml down || true
+                        docker compose -f docker-compose.yml up -d
                     '''
                 }
             }
@@ -209,9 +228,9 @@ pipeline {
                     // Add production deployment steps
                     input message: 'Deploy to Production?', ok: 'Deploy'
                     sh '''
-                        docker-compose -f docker-compose.yml down
-                        docker-compose -f docker-compose.yml pull
-                        docker-compose -f docker-compose.yml up -d
+                        docker compose -f docker-compose.yml down || true
+                        docker compose -f docker-compose.yml pull
+                        docker compose -f docker-compose.yml up -d
                     '''
                 }
             }

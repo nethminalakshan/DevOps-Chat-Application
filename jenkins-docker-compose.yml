@@ -7,7 +7,7 @@ services:
     privileged: true
     user: root
     ports:
-      - "8080:8080"  # Jenkins web interface
+      - "8090:8080"  # Jenkins web interface (host 8090 -> container 8080)
       - "50000:50000"  # Jenkins agent port
     volumes:
       - jenkins_home:/var/jenkins_home
