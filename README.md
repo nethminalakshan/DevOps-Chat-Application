@@ -338,7 +338,57 @@ DevOps Chat application/
 - `notification:new` - New notification
 - `message:read` - Messages marked as read
 
-## 🚢 Deployment
+## � Docker Deployment
+
+### Run with Docker Compose
+
+```bash
+# Using Docker Desktop (Windows)
+docker compose up -d
+
+# Using WSL
+wsl docker compose up -d
+```
+
+Services will be available at:
+- Frontend: http://localhost:3000
+- Backend: http://localhost:5000
+- MongoDB: localhost:27017
+
+See `DOCKER_GUIDE.md` for detailed Docker instructions.
+
+## 🔄 CI/CD with Jenkins
+
+This project includes Jenkins integration for continuous integration and deployment.
+
+### Quick Start Jenkins
+
+```bash
+# Start Jenkins server
+wsl docker-compose -f jenkins-docker-compose.yml up -d
+
+# Get initial password
+wsl docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword
+
+# Access Jenkins at http://localhost:8080
+```
+
+### Documentation
+
+- 📘 **Quick Start**: See `JENKINS_QUICKSTART.md` for 5-minute setup
+- 📗 **Complete Guide**: See `JENKINS_SETUP.md` for full documentation
+- 📄 **Pipeline**: See `Jenkinsfile` for pipeline configuration
+
+### Pipeline Features
+
+- ✅ Automated builds on push
+- ✅ Parallel testing (frontend & backend)
+- ✅ Docker image building
+- ✅ Security scanning (optional)
+- ✅ Automated deployment
+- ✅ Multi-branch support
+
+## �🚢 Manual Deployment
 
 ### Backend Deployment (Railway/Render/Heroku)
 
