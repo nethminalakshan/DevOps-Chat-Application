@@ -164,9 +164,6 @@ pipeline {
         }
         
         stage('Push to Docker Hub') {
-            when {
-                branch 'main'
-            }
             steps {
                 script {
                     echo 'Pushing images to Docker Hub...'
