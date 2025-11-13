@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Docker Hub credentials (add these in Jenkins: Manage Jenkins → Manage Credentials)
-        // DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
+        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKER_HUB_USERNAME = 'nlh29060'  // Your Docker Hub username
         
         // Application configuration
