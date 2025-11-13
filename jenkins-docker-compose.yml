@@ -2,13 +2,18 @@ version: '3.8'
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: ./jenkins
+      dockerfile: Dockerfile
+    image: jenkins-with-node:latest
     container_name: jenkins-server
     privileged: true
     user: root
     ports:
-      - "8090:8080"  # Jenkins web interface (host 8090 -> container 8080)
-      - "50000:50000"  # Jenkins agent port
+      - "0.0.0.0:8090:8080"  # Jenkins web interface bound to all interfaces
+      - "0.0.0.0:50000:50000"  # Jenkins agent port
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock

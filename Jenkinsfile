@@ -39,28 +39,16 @@ pipeline {
                 stage('Backend Dependencies') {
                     steps {
                         dir('server') {
-                            echo 'Installing backend dependencies (Dockerized Node 20)...'
-                            sh '''
-                                docker run --rm \
-                                  -v "$(pwd)":/workspace \
-                                  -w /workspace \
-                                  node:20 \
-                                  npm install
-                            '''
+                            echo 'Installing backend dependencies...'
+                            sh 'npm install'
                         }
                     }
                 }
                 stage('Frontend Dependencies') {
                     steps {
                         dir('client') {
-                            echo 'Installing frontend dependencies (Dockerized Node 20)...'
-                            sh '''
-                                docker run --rm \
-                                  -v "$(pwd)":/workspace \
-                                  -w /workspace \
-                                  node:20 \
-                                  npm install
-                            '''
+                            echo 'Installing frontend dependencies...'
+                            sh 'npm install'
                         }
                     }
                 }
@@ -116,14 +104,8 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('client') {
-                    echo 'Building frontend application (Dockerized Node 20)...'
-                    sh '''
-                        docker run --rm \
-                          -v "$(pwd)":/workspace \
-                          -w /workspace \
-                          node:20 \
-                          npm run build
-                    '''
+                    echo 'Building frontend application...'
+                    sh 'npm run build'
                 }
             }
         }

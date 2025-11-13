@@ -40,7 +40,7 @@ EOF
     echo "  bash jenkins-wsl.sh password"
     echo ""
     echo -e "${YELLOW}After starting Jenkins:${NC}"
-    echo "  1. Access at http://localhost:8090"
+    echo "  1. Access at http://localhost:8080"
     echo "  2. Get password: bash jenkins-wsl.sh password"
     echo "  3. Complete web setup"
     echo "  4. Setup Docker: bash jenkins-wsl.sh setup"
@@ -52,7 +52,7 @@ start_jenkins() {
     
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}✓ Jenkins started successfully!${NC}"
-    echo -e "${CYAN}Access Jenkins at: http://localhost:8090${NC}"
+    echo -e "${CYAN}Access Jenkins at: http://localhost:8080${NC}"
         echo -e "${YELLOW}Get password with: bash jenkins-wsl.sh password${NC}"
     else
         echo -e "${RED}✗ Failed to start Jenkins${NC}"
@@ -106,7 +106,7 @@ get_password() {
         echo "$password"
         echo "═══════════════════════════════════"
         echo -e "${NC}"
-    echo -e "${YELLOW}Copy this password and paste it at http://localhost:8090${NC}"
+    echo -e "${YELLOW}Copy this password and paste it at http://localhost:8080${NC}"
     else
         echo -e "${RED}✗ Could not get password. Is Jenkins running?${NC}"
         echo -e "${YELLOW}Start Jenkins with: bash jenkins-wsl.sh start${NC}"
