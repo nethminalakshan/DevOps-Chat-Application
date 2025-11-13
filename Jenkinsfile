@@ -42,7 +42,7 @@ pipeline {
                             echo 'Installing backend dependencies (Dockerized Node 20)...'
                             sh '''
                                 docker run --rm \
-                                  -v "$PWD":/workspace \
+                                  -v "$(pwd)":/workspace \
                                   -w /workspace \
                                   node:20 \
                                   npm install
@@ -56,7 +56,7 @@ pipeline {
                             echo 'Installing frontend dependencies (Dockerized Node 20)...'
                             sh '''
                                 docker run --rm \
-                                  -v "$PWD":/workspace \
+                                  -v "$(pwd)":/workspace \
                                   -w /workspace \
                                   node:20 \
                                   npm install
@@ -119,7 +119,7 @@ pipeline {
                     echo 'Building frontend application (Dockerized Node 20)...'
                     sh '''
                         docker run --rm \
-                          -v "$PWD":/workspace \
+                          -v "$(pwd)":/workspace \
                           -w /workspace \
                           node:20 \
                           npm run build
