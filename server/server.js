@@ -24,16 +24,27 @@ const notificationRoutes = require('./routes/notifications');
 const app = express();
 const server = http.createServer(app);
 
-// Socket.io setup
+// Socket.io setup with flexible CORS
 const io = socketio(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow all origins for Socket.io (it's already authenticated via token)
+      callback(null, true);
+    },
     credentials: true
   }
 });
 
 // Connect to database
 connectDB();
+
+// CORS configuration - allow multiple origins
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://172.24.120.2:3000'
+].filter(Boolean);
 
 // Middleware
 app.use(helmet({
@@ -42,7 +53,17 @@ app.use(helmet({
 app.use(compression());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      // Allow all origins in development
+      callback(null, true);
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
@@ -55,6 +76,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax',
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }));

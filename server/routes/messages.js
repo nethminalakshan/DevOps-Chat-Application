@@ -4,6 +4,7 @@ const Message = require('../models/Message');
 const Conversation = require('../models/Conversation');
 const upload = require('../middleware/upload');
 const { authenticateJWT } = require('../middleware/auth');
+const path = require('path');
 
 // Get messages for a conversation
 router.get('/conversation/:conversationId', authenticateJWT, async (req, res) => {

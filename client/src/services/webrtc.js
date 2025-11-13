@@ -1,4 +1,5 @@
 import { getSocket } from './socket';
+import toast from 'react-hot-toast';
 
 class WebRTCService {
   constructor() {
@@ -13,15 +14,20 @@ class WebRTCService {
     };
   }
 
-  async initializeLocalStream() {
+  async initializeLocalStream(includeVideo = false) {
     try {
       this.localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: false,
+        video: includeVideo ? {
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          facingMode: 'user'
+        } : false,
       });
+      this.hasVideo = includeVideo;
       return this.localStream;
     } catch (error) {
-      console.error('Error accessing microphone:', error);
+      console.error('Error accessing media devices:', error);
       throw error;
     }
   }
@@ -49,6 +55,7 @@ class WebRTCService {
       if (event.candidate) {
         getSocket().emit('call:ice-candidate', {
           candidate: event.candidate,
+          to: this.remoteUserId
         });
       }
     };
@@ -56,10 +63,11 @@ class WebRTCService {
     return this.peerConnection;
   }
 
-  async startCall(userId) {
+  async startCall(userId, includeVideo = false) {
     try {
-      await this.initializeLocalStream();
+      await this.initializeLocalStream(includeVideo);
       this.createPeerConnection();
+      this.remoteUserId = userId;
 
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
@@ -67,19 +75,22 @@ class WebRTCService {
       getSocket().emit('call:start', {
         to: userId,
         offer: offer,
+        hasVideo: includeVideo
       });
 
-      return { localStream: this.localStream, peerConnection: this.peerConnection };
+      console.log(includeVideo ? '📹 Video call started to user:' : '📞 Voice call started to user:', userId);
+      return { localStream: this.localStream, peerConnection: this.peerConnection, remoteStream: this.remoteStream };
     } catch (error) {
       console.error('Error starting call:', error);
       throw error;
     }
   }
 
-  async answerCall(offer) {
+  async answerCall(offer, includeVideo = false, fromUserId = null) {
     try {
-      await this.initializeLocalStream();
+      await this.initializeLocalStream(includeVideo);
       this.createPeerConnection();
+      this.remoteUserId = fromUserId;
 
       await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
       const answer = await this.peerConnection.createAnswer();
@@ -89,7 +100,8 @@ class WebRTCService {
         answer: answer,
       });
 
-      return { localStream: this.localStream, peerConnection: this.peerConnection };
+      console.log('✅ Call answered with', includeVideo ? 'video' : 'audio only');
+      return { localStream: this.localStream, peerConnection: this.peerConnection, remoteStream: this.remoteStream };
     } catch (error) {
       console.error('Error answering call:', error);
       throw error;
@@ -126,8 +138,29 @@ class WebRTCService {
     }
 
     this.remoteStream = null;
+    this.hasVideo = false;
 
-    getSocket().emit('call:end');
+    // Emit with remote user ID if available
+    const socket = getSocket();
+    if (socket) {
+      socket.emit('call:end', { to: this.remoteUserId });
+    }
+    this.remoteUserId = null;
+  }
+
+  getRemoteStream() {
+    return this.remoteStream;
+  }
+
+  toggleVideo() {
+    if (this.localStream) {
+      const videoTrack = this.localStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        return videoTrack.enabled;
+      }
+    }
+    return false;
   }
 
   setupCallListeners(callbacks) {
@@ -138,36 +171,50 @@ class WebRTCService {
         return;
       }
 
-      socket.on('call:incoming', ({ from, offer }) => {
+      socket.on('call:incoming', (data) => {
+        const { from, offer, hasVideo } = data;
+        console.log('📞 Incoming call from:', from, 'hasVideo:', hasVideo);
         if (callbacks.onIncomingCall) {
-          callbacks.onIncomingCall(from, offer);
+          callbacks.onIncomingCall(from, offer, hasVideo);
         }
       });
 
-    socket.on('call:answered', ({ answer }) => {
-      this.handleAnswer(answer);
-      if (callbacks.onCallAnswered) {
-        callbacks.onCallAnswered();
-      }
-    });
+      socket.on('call:answered', ({ answer }) => {
+        console.log('✅ Call answered');
+        this.handleAnswer(answer);
+        if (callbacks.onCallAnswered) {
+          callbacks.onCallAnswered();
+        }
+      });
 
-    socket.on('call:ice-candidate', ({ candidate }) => {
-      this.handleIceCandidate(candidate);
-    });
+      socket.on('call:ice-candidate', ({ candidate }) => {
+        console.log('🧊 Received ICE candidate');
+        this.handleIceCandidate(candidate);
+      });
 
-    socket.on('call:ended', () => {
-      this.endCall();
-      if (callbacks.onCallEnded) {
-        callbacks.onCallEnded();
-      }
-    });
+      socket.on('call:ended', () => {
+        console.log('📞 Call ended by remote user');
+        this.endCall();
+        if (callbacks.onCallEnded) {
+          callbacks.onCallEnded();
+        }
+      });
 
-    socket.on('call:rejected', () => {
-      this.endCall();
-      if (callbacks.onCallRejected) {
-        callbacks.onCallRejected();
-      }
-    });
+      socket.on('call:rejected', () => {
+        console.log('❌ Call rejected by remote user');
+        this.endCall();
+        if (callbacks.onCallRejected) {
+          callbacks.onCallRejected();
+        }
+      });
+
+      socket.on('call:user-unavailable', () => {
+        console.log('📵 User unavailable');
+        toast.error('User is not available');
+        if (callbacks.onCallEnded) {
+          callbacks.onCallEnded();
+        }
+      });
     } catch (error) {
       console.warn('Error setting up call listeners:', error);
     }

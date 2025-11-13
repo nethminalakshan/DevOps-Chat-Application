@@ -81,20 +81,42 @@ const Chat = () => {
   }, [activeConversation]);
 
   return (
-    <div className="h-screen flex bg-gray-50">
+    <div className="h-screen flex bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">
       <Sidebar />
       {activeConversation ? (
         <ChatWindow />
       ) : (
-        <div className="flex-1 flex items-center justify-center bg-white">
-          <div className="text-center">
-            <div className="text-6xl mb-4">💬</div>
-            <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-              Welcome to Chat App
+        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-white via-blue-50/20 to-purple-50/20">
+          <div className="text-center max-w-md px-6">
+            <div className="relative mb-8">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-32 h-32 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full opacity-20 blur-2xl animate-pulse"></div>
+              </div>
+              <div className="relative text-8xl mb-6 animate-bounce-slow">💬</div>
+            </div>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-3">
+              Welcome to DevOps Chat
             </h2>
-            <p className="text-gray-500">
-              Select a conversation to start chatting
+            <p className="text-gray-600 text-lg mb-6">
+              Connect with your team and start collaborating
             </p>
+            <div className="flex flex-col gap-3 text-sm text-gray-500">
+              <div className="flex items-center gap-2 justify-center">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span>Real-time messaging</span>
+              </div>
+              <div className="flex items-center gap-2 justify-center">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                <span>Voice & Video calls</span>
+              </div>
+              <div className="flex items-center gap-2 justify-center">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                <span>File sharing</span>
+              </div>
+            </div>
+            <div className="mt-8 text-xs text-gray-400">
+              Select a conversation from the sidebar to get started
+            </div>
           </div>
         </div>
       )}

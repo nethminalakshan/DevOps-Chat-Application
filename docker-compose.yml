@@ -31,11 +31,14 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
     environment:
       NODE_ENV: production
       PORT: 5000
-      # Using MongoDB Atlas from your .env file
-      MONGODB_URI: mongodb+srv://nethminalakshan2018_db_user:0764986150@chatapplicationdb.zlquwap.mongodb.net/chat-app?retryWrites=true&w=majority
+      # Using local MongoDB container
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/chat-app?authSource=admin
       JWT_SECRET: ec821c8f5c10a9536fae05b68ccc565129389b862806441b9444bf598efa74285375967f3a32fd5d4da2c0ebfde60145f86d188221a4e2efa43896f2b8bc7f7f
       SESSION_SECRET: ec821c8f5c10a9536fae05b68ccc565129389b862806441b9444bf598efa74285375967f3a32fd5d4da2c0ebfde60145f86d188221a4e2efa43896f2b8bc7f7f
       CLIENT_URL: http://localhost:3000

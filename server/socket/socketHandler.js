@@ -175,28 +175,37 @@ const socketHandler = (io) => {
       }
     });
 
-    // Voice Call Handlers
-    socket.on('call:start', ({ to, offer }) => {
+    // Voice/Video Call Handlers
+    socket.on('call:start', ({ to, offer, hasVideo }) => {
       const recipientSocketId = connectedUsers.get(to);
       if (recipientSocketId) {
         io.to(recipientSocketId).emit('call:incoming', {
           from: socket.userId,
-          offer
+          offer,
+          hasVideo: hasVideo || false
         });
+        console.log(`${hasVideo ? '📹' : '📞'} Call started from ${socket.userId} to ${to}`);
+      } else {
+        socket.emit('call:user-unavailable');
       }
     });
 
-    socket.on('call:answer', ({ to, answer }) => {
-      const callerSocketId = connectedUsers.get(to);
-      if (callerSocketId) {
-        io.to(callerSocketId).emit('call:answered', { answer });
-      }
+    socket.on('call:answer', ({ answer }) => {
+      // Send answer back to the original caller
+      const conversations = Array.from(socket.rooms).filter(r => r !== socket.id);
+      socket.broadcast.emit('call:answered', { answer, from: socket.userId });
+      console.log(`✅ Call answered by ${socket.userId}`);
     });
 
-    socket.on('call:ice-candidate', ({ to, candidate }) => {
-      const recipientSocketId = connectedUsers.get(to);
-      if (recipientSocketId) {
-        io.to(recipientSocketId).emit('call:ice-candidate', { candidate });
+    socket.on('call:ice-candidate', ({ candidate, to }) => {
+      if (to) {
+        const recipientSocketId = connectedUsers.get(to);
+        if (recipientSocketId) {
+          io.to(recipientSocketId).emit('call:ice-candidate', { candidate, from: socket.userId });
+        }
+      } else {
+        // Broadcast to all if no specific target
+        socket.broadcast.emit('call:ice-candidate', { candidate, from: socket.userId });
       }
     });
 
@@ -204,14 +213,21 @@ const socketHandler = (io) => {
       const callerSocketId = connectedUsers.get(to);
       if (callerSocketId) {
         io.to(callerSocketId).emit('call:rejected');
+        console.log(`❌ Call rejected by ${socket.userId}`);
       }
     });
 
-    socket.on('call:end', ({ to }) => {
-      const recipientSocketId = connectedUsers.get(to);
-      if (recipientSocketId) {
-        io.to(recipientSocketId).emit('call:ended');
+    socket.on('call:end', (data) => {
+      const to = data?.to;
+      if (to) {
+        const recipientSocketId = connectedUsers.get(to);
+        if (recipientSocketId) {
+          io.to(recipientSocketId).emit('call:ended');
+        }
       }
+      // Broadcast to all if no specific target
+      socket.broadcast.emit('call:ended');
+      console.log(`📞 Call ended by ${socket.userId}`);
     });
 
     // Disconnect
