@@ -45,7 +45,7 @@ pipeline {
                                   -v "$PWD":/workspace \
                                   -w /workspace \
                                   node:20 \
-                                  npm ci
+                                  npm install
                             '''
                         }
                     }
@@ -59,7 +59,7 @@ pipeline {
                                   -v "$PWD":/workspace \
                                   -w /workspace \
                                   node:20 \
-                                  npm ci
+                                  npm install
                             '''
                         }
                     }
