@@ -166,8 +166,6 @@ pipeline {
         stage('Push to Docker Hub') {
             when {
                 branch 'main'
-                // Only run if credentials are configured
-                expression { return env.DOCKER_HUB_CREDENTIALS != null }
             }
             steps {
                 script {
