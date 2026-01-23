@@ -329,44 +329,44 @@ const ChatWindow = () => {
     : [];
 
   return (
-    <div className="flex-1 flex flex-col bg-gradient-to-br from-white to-gray-50">
+    <div className="flex-1 flex flex-col bg-gradient-to-br from-white to-gray-50 dark:from-dark-900 dark:to-dark-950 transition-colors duration-300">
       {/* Header with gradient */}
-      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 backdrop-blur-sm shadow-sm">
+      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 dark:from-dark-900 dark:via-dark-800/50 dark:to-dark-900 backdrop-blur-sm shadow-sm">
         <div className="flex items-center gap-4">
           {typeof conversationAvatar === 'string' && conversationAvatar.startsWith('http') ? (
             <div className="relative">
               <img
                 src={conversationAvatar}
                 alt={conversationName}
-                className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-primary-100"
+                className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-dark-700 shadow-md ring-2 ring-primary-100 dark:ring-primary-900"
               />
               {otherUser?.status === 'online' && (
-                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></span>
+                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-dark-900 rounded-full shadow-lg shadow-green-500/50"></span>
               )}
             </div>
           ) : (
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-purple-500 flex items-center justify-center text-xl text-white border-2 border-white shadow-md ring-2 ring-primary-100">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-purple-500 flex items-center justify-center text-xl text-white border-2 border-white dark:border-dark-700 shadow-md ring-2 ring-primary-100 dark:ring-primary-900">
               {conversationAvatar}
             </div>
           )}
           <div>
-            <h2 className="font-bold text-gray-900 text-lg">{conversationName}</h2>
+            <h2 className="font-bold text-gray-900 dark:text-gray-100 text-lg">{conversationName}</h2>
             {typingUsersList.length > 0 ? (
-              <p className="text-sm text-primary-600 flex items-center gap-1.5 font-medium">
+              <p className="text-sm text-primary-600 dark:text-primary-400 flex items-center gap-1.5 font-medium">
                 <span className="inline-flex gap-0.5">
-                  <span className="inline-block w-1.5 h-1.5 bg-primary-600 rounded-full animate-bounce"></span>
-                  <span className="inline-block w-1.5 h-1.5 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></span>
-                  <span className="inline-block w-1.5 h-1.5 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                  <span className="inline-block w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce"></span>
+                  <span className="inline-block w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></span>
+                  <span className="inline-block w-1.5 h-1.5 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
                 </span>
                 <span>{typingUsersList.join(', ')} typing...</span>
               </p>
             ) : otherUser?.status === 'online' ? (
-              <p className="text-sm text-green-600 flex items-center gap-1.5 font-medium">
-                <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-1.5 font-medium">
+                <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></span>
                 Online
               </p>
             ) : (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {activeConversation?.type === 'group'
                   ? `${activeConversation.participants.length} members`
                   : 'Offline'}
@@ -378,26 +378,26 @@ const ChatWindow = () => {
           {/* Voice Call Button */}
           <button 
             onClick={handleVoiceCall}
-            className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl transition-all group"
+            className="p-2.5 hover:bg-white dark:hover:bg-dark-700 hover:shadow-sm rounded-xl transition-all group"
             title="Voice call"
           >
-            <FiPhone className="w-5 h-5 text-gray-600 group-hover:text-green-600 group-hover:scale-110 transition-all" />
+            <FiPhone className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400 group-hover:scale-110 transition-all" />
           </button>
           
           {/* Video Call Button */}
           <button 
             onClick={handleVideoCall}
-            className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl transition-all group"
+            className="p-2.5 hover:bg-white dark:hover:bg-dark-700 hover:shadow-sm rounded-xl transition-all group"
             title="Video call"
           >
-            <FiVideo className="w-5 h-5 text-gray-600 group-hover:text-blue-600 group-hover:scale-110 transition-all" />
+            <FiVideo className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:scale-110 transition-all" />
           </button>
           
-          <button className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl transition-all group">
-            <FiSearch className="w-5 h-5 text-gray-600 group-hover:text-primary-600 group-hover:scale-110 transition-all" />
+          <button className="p-2.5 hover:bg-white dark:hover:bg-dark-700 hover:shadow-sm rounded-xl transition-all group">
+            <FiSearch className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:scale-110 transition-all" />
           </button>
-          <button className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl transition-all group">
-            <FiMoreVertical className="w-5 h-5 text-gray-600 group-hover:text-primary-600 group-hover:scale-110 transition-all" />
+          <button className="p-2.5 hover:bg-white dark:hover:bg-dark-700 hover:shadow-sm rounded-xl transition-all group">
+            <FiMoreVertical className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:scale-110 transition-all" />
           </button>
         </div>
       </div>
@@ -406,14 +406,14 @@ const ChatWindow = () => {
       <MessageList messages={messages} />
 
       {/* Input with gradient background */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-white via-blue-50/20 to-purple-50/20">
+      <div className="px-6 py-5 border-t border-gray-200/80 dark:border-gray-800 bg-gradient-to-r from-white via-blue-50/30 to-purple-50/30 dark:from-dark-900 dark:via-dark-800/50 dark:to-dark-900 backdrop-blur-sm">
         {showEmojiPicker && (
-          <div className="absolute bottom-20 right-4 z-50 shadow-2xl rounded-lg overflow-hidden">
-            <EmojiPicker onEmojiClick={handleEmojiClick} />
+          <div className="absolute bottom-24 right-4 z-50 shadow-2xl rounded-2xl overflow-hidden">
+            <EmojiPicker onEmojiClick={handleEmojiClick} theme="auto" />
           </div>
         )}
 
-        <form onSubmit={handleSendMessage} className="flex items-end gap-2">
+        <form onSubmit={handleSendMessage} className="flex items-end gap-3">
           <input
             type="file"
             ref={fileInputRef}
@@ -425,22 +425,22 @@ const ChatWindow = () => {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="p-3 hover:bg-white rounded-xl transition-all text-gray-600 hover:text-primary-600 hover:shadow-sm group"
+            className="p-3.5 bg-white dark:bg-dark-700 hover:bg-gray-50 dark:hover:bg-dark-600 rounded-xl transition-all text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 shadow-sm hover:shadow-md border border-gray-200 dark:border-dark-600 group"
             title="Attach file"
           >
-            <FiPaperclip className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <FiPaperclip className="w-5 h-5 group-hover:scale-110 group-hover:rotate-12 transition-transform" />
           </button>
 
           <button
             type="button"
             onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            className="p-3 hover:bg-white rounded-xl transition-all text-gray-600 hover:text-yellow-500 hover:shadow-sm group"
+            className="p-3.5 bg-white dark:bg-dark-700 hover:bg-gray-50 dark:hover:bg-dark-600 rounded-xl transition-all text-gray-500 dark:text-gray-400 hover:text-yellow-500 shadow-sm hover:shadow-md border border-gray-200 dark:border-dark-600 group"
             title="Add emoji"
           >
             <FiSmile className="w-5 h-5 group-hover:scale-110 transition-transform" />
           </button>
 
-          <div className="flex-1 bg-white rounded-2xl border-2 border-gray-200 focus-within:border-primary-400 focus-within:ring-4 focus-within:ring-primary-100 transition-all shadow-sm">
+          <div className="flex-1 bg-white dark:bg-dark-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 focus-within:border-primary-500 dark:focus-within:border-primary-400 focus-within:ring-4 focus-within:ring-primary-100/50 dark:focus-within:ring-primary-900/30 transition-all shadow-md hover:shadow-lg">
             <input
               type="text"
               value={messageText}
@@ -449,14 +449,14 @@ const ChatWindow = () => {
                 handleTyping();
               }}
               placeholder="Type your message..."
-              className="w-full px-5 py-3.5 bg-transparent focus:outline-none text-gray-800 placeholder-gray-400"
+              className="w-full px-6 py-4 bg-transparent focus:outline-none text-base text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
           <button
             type="submit"
             disabled={!messageText.trim()}
-            className="bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white p-3.5 rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-primary-600 disabled:hover:to-blue-600 shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95"
+            className="bg-gradient-to-br from-primary-500 via-primary-600 to-blue-600 hover:from-primary-600 hover:via-primary-700 hover:to-blue-700 text-white p-4 rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-primary-500 shadow-lg hover:shadow-xl hover:shadow-primary-500/30 transform hover:scale-105 active:scale-95"
             title="Send message"
           >
             <FiSend className="w-5 h-5" />

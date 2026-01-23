@@ -81,41 +81,45 @@ const Chat = () => {
   }, [activeConversation]);
 
   return (
-    <div className="h-screen flex bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">
+    <div className="h-screen flex bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-dark-950 dark:via-dark-900 dark:to-dark-950 transition-colors duration-500">
       <Sidebar />
       {activeConversation ? (
         <ChatWindow />
       ) : (
-        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-white via-blue-50/20 to-purple-50/20">
+        <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-white via-blue-50/20 to-purple-50/20 dark:from-dark-900 dark:via-dark-800/50 dark:to-dark-900 transition-colors duration-500">
           <div className="text-center max-w-md px-6">
             <div className="relative mb-8">
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full opacity-20 blur-2xl animate-pulse"></div>
+                <div className="w-40 h-40 bg-gradient-to-br from-primary-400 to-purple-500 rounded-full opacity-20 dark:opacity-30 blur-3xl animate-pulse"></div>
               </div>
-              <div className="relative text-8xl mb-6 animate-bounce-slow">💬</div>
+              <div className="relative text-8xl mb-6 floating">💬</div>
             </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-3">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4 animate-gradient bg-[length:200%_auto]">
               Welcome to DevOps Chat
             </h2>
-            <p className="text-gray-600 text-lg mb-6">
+            <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
               Connect with your team and start collaborating
             </p>
-            <div className="flex flex-col gap-3 text-sm text-gray-500">
-              <div className="flex items-center gap-2 justify-center">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Real-time messaging</span>
+            <div className="flex flex-col gap-4 text-sm">
+              <div className="flex items-center gap-3 justify-center p-3 bg-white/50 dark:bg-dark-800/50 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover-lift">
+                <span className="w-3 h-3 bg-green-500 rounded-full shadow-lg shadow-green-500/50 animate-pulse"></span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">Real-time messaging</span>
               </div>
-              <div className="flex items-center gap-2 justify-center">
-                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                <span>Voice & Video calls</span>
+              <div className="flex items-center gap-3 justify-center p-3 bg-white/50 dark:bg-dark-800/50 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover-lift">
+                <span className="w-3 h-3 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50 animate-pulse"></span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">Voice & Video calls</span>
               </div>
-              <div className="flex items-center gap-2 justify-center">
-                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                <span>File sharing</span>
+              <div className="flex items-center gap-3 justify-center p-3 bg-white/50 dark:bg-dark-800/50 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover-lift">
+                <span className="w-3 h-3 bg-purple-500 rounded-full shadow-lg shadow-purple-500/50 animate-pulse"></span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">File sharing</span>
+              </div>
+              <div className="flex items-center gap-3 justify-center p-3 bg-white/50 dark:bg-dark-800/50 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover-lift">
+                <span className="w-3 h-3 bg-pink-500 rounded-full shadow-lg shadow-pink-500/50 animate-pulse"></span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">Enigma AI Assistant</span>
               </div>
             </div>
-            <div className="mt-8 text-xs text-gray-400">
-              Select a conversation from the sidebar to get started
+            <div className="mt-10 text-sm text-gray-400 dark:text-gray-500">
+              ✨ Select a conversation from the sidebar to get started
             </div>
           </div>
         </div>

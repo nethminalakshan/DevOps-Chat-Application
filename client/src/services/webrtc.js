@@ -98,6 +98,7 @@ class WebRTCService {
 
       getSocket().emit('call:answer', {
         answer: answer,
+        to: fromUserId,
       });
 
       console.log('✅ Call answered with', includeVideo ? 'video' : 'audio only');

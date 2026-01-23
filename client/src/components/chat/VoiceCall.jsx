@@ -96,11 +96,21 @@ const VoiceCall = ({
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-white rounded-2xl shadow-2xl w-96 overflow-hidden"
+          className="bg-white dark:bg-dark-800 rounded-2xl shadow-2xl w-96 overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-8 text-white text-center">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-4 border-white/30">
+          <div className="bg-gradient-to-br from-primary-600 to-purple-600 p-8 text-white text-center relative overflow-hidden">
+            {/* Animated background circles */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full animate-pulse"></div>
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+            </div>
+            
+            <motion.div 
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="relative w-28 h-28 mx-auto mb-4 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-4 border-white/30 shadow-xl"
+            >
               {callerInfo?.avatar ? (
                 <img
                   src={callerInfo.avatar}
@@ -112,12 +122,27 @@ const VoiceCall = ({
                   {callerInfo?.name?.charAt(0).toUpperCase()}
                 </span>
               )}
-            </div>
-            <h2 className="text-2xl font-bold mb-2">{callerInfo?.name}</h2>
-            <p className="text-white/90">
-              {callStatus === 'incoming' && 'Incoming voice call...'}
-              {callStatus === 'calling' && 'Calling...'}
-              {callStatus === 'connected' && formatDuration(callDuration)}
+            </motion.div>
+            <h2 className="relative text-2xl font-bold mb-2">{callerInfo?.name}</h2>
+            <p className="relative text-white/90 flex items-center justify-center gap-2">
+              {callStatus === 'incoming' && (
+                <>
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                  Incoming voice call...
+                </>
+              )}
+              {callStatus === 'calling' && (
+                <>
+                  <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                  Calling...
+                </>
+              )}
+              {callStatus === 'connected' && (
+                <>
+                  <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                  {formatDuration(callDuration)}
+                </>
+              )}
               {callStatus === 'ended' && 'Call ended'}
             </p>
           </div>
@@ -127,21 +152,25 @@ const VoiceCall = ({
           <audio ref={remoteAudioRef} autoPlay />
 
           {/* Controls */}
-          <div className="p-8">
+          <div className="p-8 bg-gray-50 dark:bg-dark-900">
             {callStatus === 'incoming' && (
-              <div className="flex gap-4 justify-center">
-                <button
+              <div className="flex gap-6 justify-center">
+                <motion.button
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleDecline}
-                  className="w-16 h-16 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white shadow-lg transition-all transform hover:scale-110"
+                  className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 rounded-full flex items-center justify-center text-white shadow-xl transition-all"
                 >
                   <FiPhoneOff className="w-6 h-6" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleAccept}
-                  className="w-16 h-16 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg transition-all transform hover:scale-110"
+                  className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 rounded-full flex items-center justify-center text-white shadow-xl transition-all"
                 >
                   <FiPhone className="w-6 h-6" />
-                </button>
+                </motion.button>
               </div>
             )}
 
@@ -149,23 +178,27 @@ const VoiceCall = ({
               <div className="space-y-4">
                 {callStatus === 'connected' && (
                   <div className="flex gap-4 justify-center mb-6">
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={toggleMute}
-                      className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
+                      className={`w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-lg ${
                         isMuted
                           ? 'bg-red-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-dark-600'
                       }`}
                       title={isMuted ? 'Unmute' : 'Mute'}
                     >
                       {isMuted ? <FiMicOff className="w-5 h-5" /> : <FiMic className="w-5 h-5" />}
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={toggleSpeaker}
-                      className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
+                      className={`w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-lg ${
                         !isSpeakerOn
                           ? 'bg-red-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : 'bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-dark-600'
                       }`}
                       title={isSpeakerOn ? 'Mute speaker' : 'Unmute speaker'}
                     >
@@ -174,17 +207,19 @@ const VoiceCall = ({
                       ) : (
                         <FiVolumeX className="w-5 h-5" />
                       )}
-                    </button>
+                    </motion.button>
                   </div>
                 )}
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleEnd}
-                  className="w-full py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg"
+                  className="w-full py-3.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all shadow-xl font-medium"
                 >
                   <FiPhoneOff className="w-5 h-5" />
                   End Call
-                </button>
+                </motion.button>
               </div>
             )}
           </div>

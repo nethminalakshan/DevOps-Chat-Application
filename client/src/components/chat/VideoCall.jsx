@@ -184,19 +184,23 @@ const VideoCall = ({
             {/* Controls */}
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
               {callStatus === 'incoming' && (
-                <div className="flex gap-4 justify-center">
-                  <button
+                <div className="flex gap-6 justify-center">
+                  <motion.button
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={handleDecline}
-                    className="w-16 h-16 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white shadow-lg transition-all transform hover:scale-110"
+                    className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 rounded-full flex items-center justify-center text-white shadow-xl transition-all"
                   >
                     <FiPhoneOff className="w-6 h-6" />
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={handleAccept}
-                    className="w-16 h-16 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center text-white shadow-lg transition-all transform hover:scale-110"
+                    className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 rounded-full flex items-center justify-center text-white shadow-xl transition-all"
                   >
                     <FiPhone className="w-6 h-6" />
-                  </button>
+                  </motion.button>
                 </div>
               )}
 
@@ -204,9 +208,11 @@ const VideoCall = ({
                 <div className="space-y-4">
                   {callStatus === 'connected' && (
                     <div className="flex gap-3 justify-center mb-6">
-                      <button
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={toggleMute}
-                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110 ${
+                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-lg ${
                           isMuted
                             ? 'bg-red-500 text-white'
                             : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
@@ -214,10 +220,12 @@ const VideoCall = ({
                         title={isMuted ? 'Unmute' : 'Mute'}
                       >
                         {isMuted ? <FiMicOff className="w-5 h-5" /> : <FiMic className="w-5 h-5" />}
-                      </button>
-                      <button
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={toggleVideo}
-                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all transform hover:scale-110 ${
+                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-lg ${
                           isVideoOff
                             ? 'bg-red-500 text-white'
                             : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
@@ -225,24 +233,28 @@ const VideoCall = ({
                         title={isVideoOff ? 'Turn on camera' : 'Turn off camera'}
                       >
                         {isVideoOff ? <FiVideoOff className="w-5 h-5" /> : <FiVideo className="w-5 h-5" />}
-                      </button>
-                      <button
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={toggleFullscreen}
-                        className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 flex items-center justify-center transition-all transform hover:scale-110"
+                        className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 flex items-center justify-center transition-all shadow-lg"
                         title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
                       >
                         {isFullscreen ? <FiMinimize2 className="w-5 h-5" /> : <FiMaximize2 className="w-5 h-5" />}
-                      </button>
+                      </motion.button>
                     </div>
                   )}
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleEnd}
-                    className="w-full py-4 bg-red-500 hover:bg-red-600 text-white rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg transform hover:scale-105"
+                    className="w-full py-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all shadow-xl font-medium"
                   >
                     <FiPhoneOff className="w-5 h-5" />
                     End Call
-                  </button>
+                  </motion.button>
                 </div>
               )}
             </div>

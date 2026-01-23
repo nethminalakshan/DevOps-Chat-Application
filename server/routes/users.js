@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const { authenticateJWT } = require('../middleware/auth');
+const upload = require('../middleware/upload');
+const path = require('path');
 
 // Get all users (for search)
 router.get('/', authenticateJWT, async (req, res) => {
@@ -58,6 +60,29 @@ router.put('/profile', authenticateJWT, async (req, res) => {
     ).select('username email avatar status bio');
 
     res.json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Upload profile avatar
+router.post('/avatar', authenticateJWT, upload.single('avatar'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Create avatar URL
+    const avatarUrl = `${process.env.SERVER_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
+
+    // Update user avatar
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { avatar: avatarUrl },
+      { new: true }
+    ).select('username email avatar status bio');
+
+    res.json({ success: true, user, avatarUrl });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

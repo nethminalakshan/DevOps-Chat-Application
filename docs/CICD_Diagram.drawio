@@ -1,0 +1,229 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.4">
+  <diagram name="CI/CD Pipeline" id="cicd-pipeline">
+    <mxGraphModel dx="2296" dy="1163" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dev-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" value="Developer Environment" vertex="1">
+          <mxGeometry height="160" width="200" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dev-icon" parent="dev-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/1055/1055666.png;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dev-label" parent="dev-group" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="Developer&#xa;Workstation" vertex="1">
+          <mxGeometry height="40" width="80" x="20" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="code-icon" parent="dev-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/2620/2620389.png;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="120" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="code-label" parent="dev-group" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="Source&#xa;Code" vertex="1">
+          <mxGeometry height="40" width="60" x="120" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="git-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" value="Version Control - GitHub" vertex="1">
+          <mxGeometry height="160" width="240" x="280" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="github-icon" parent="git-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/25/25231.png;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="90" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="github-label" parent="git-group" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="GitHub Repository&#xa;• main branch&#xa;• develop branch&#xa;• feature branches" vertex="1">
+          <mxGeometry height="60" width="120" x="55" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="jenkins-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;" value="Continuous Integration - Jenkins" vertex="1">
+          <mxGeometry height="220" width="400" x="560" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jenkins-icon" parent="jenkins-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://www.jenkins.io/images/logos/jenkins/jenkins.png;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="10" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="jenkins-label" parent="jenkins-group" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" value="Jenkins&#xa;Server" vertex="1">
+          <mxGeometry height="40" width="60" x="20" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="stage1" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="1. Checkout" vertex="1">
+          <mxGeometry height="30" width="70" x="90" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="stage2" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="2. Install Deps" vertex="1">
+          <mxGeometry height="30" width="70" x="220" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="stage3" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="3. Run Tests" vertex="1">
+          <mxGeometry height="30" width="70" x="220" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="jTE6qMIGl4Apm3gPEn8V-1" edge="1" parent="jenkins-group" source="stage4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="stage5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="stage4" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="4. Lint Code" vertex="1">
+          <mxGeometry height="30" width="70" x="90" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="stage5" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="5. Build App" vertex="1">
+          <mxGeometry height="30" width="70" x="90" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="jTE6qMIGl4Apm3gPEn8V-2" edge="1" parent="jenkins-group" source="stage6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="stage7">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="stage6" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="6. Docker Build" vertex="1">
+          <mxGeometry height="30" width="70" x="230" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="stage7" parent="jenkins-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" value="7. Push Images" vertex="1">
+          <mxGeometry height="30" width="70" x="320" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="arr1" edge="1" parent="jenkins-group" source="stage1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;" target="stage2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr2" edge="1" parent="jenkins-group" source="stage2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;" target="stage3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr3" edge="1" parent="jenkins-group" source="stage3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;" target="stage4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr5" edge="1" parent="jenkins-group" source="stage5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;" target="stage6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="registry-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;" value="Container Registry - Docker Hub" vertex="1">
+          <mxGeometry height="200" width="200" x="1010" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-icon" parent="registry-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/919/919853.png;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="70" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="img1" parent="registry-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;fontSize=9;" value="chat-app-client:latest" vertex="1">
+          <mxGeometry height="25" width="140" x="30" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="img2" parent="registry-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;fontSize=9;" value="chat-app-server:latest" vertex="1">
+          <mxGeometry height="25" width="140" x="30" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="iac-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;" value="Infrastructure as Code" vertex="1">
+          <mxGeometry height="140" width="240" x="560" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="terraform-icon" parent="iac-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/5969/5969294.png;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="terraform-label" parent="iac-group" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="Terraform&#xa;(Provisioning)" vertex="1">
+          <mxGeometry height="40" width="80" x="15" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ansible-icon" parent="iac-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/5969/5969092.png;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="140" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ansible-label" parent="iac-group" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="Ansible&#xa;(Configuration)" vertex="1">
+          <mxGeometry height="40" width="90" x="125" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="prod-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d4edda;strokeColor=#28a745;fontSize=14;fontStyle=1;" value="Production Environment - Docker Host" vertex="1">
+          <mxGeometry height="280" width="360" x="870" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx-container" parent="prod-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4ea;strokeColor=#28a745;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="70" width="120" x="120" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx-icon" parent="prod-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/5969/5969286.png;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="130" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx-label" parent="prod-group" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="Nginx&#xa;:80/443" vertex="1">
+          <mxGeometry height="40" width="60" x="175" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="client-container" parent="prod-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="70" width="140" x="20" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="react-icon" parent="prod-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/1126/1126012.png;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="30" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="client-label" parent="prod-group" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="React Client&#xa;Port 3000" vertex="1">
+          <mxGeometry height="40" width="80" x="75" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="server-container" parent="prod-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff9800;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="70" width="140" x="200" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="node-icon" parent="prod-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/5968/5968322.png;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="210" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="server-label" parent="prod-group" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="Node.js Server&#xa;Port 5000" vertex="1">
+          <mxGeometry height="40" width="90" x="255" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mongo-container" parent="prod-group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#4caf50;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="40" width="120" x="120" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="mongo-icon" parent="prod-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/2906/2906274.png;" value="" vertex="1">
+          <mxGeometry height="35" width="35" x="130" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="mongo-label" parent="prod-group" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" value="MongoDB Atlas" vertex="1">
+          <mxGeometry height="30" width="90" x="165" y="237" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx-client" edge="1" parent="prod-group" source="nginx-container" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=10;" target="client-container" value="/">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx-server" edge="1" parent="prod-group" source="nginx-container" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=10;" target="server-container" value="/api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="client-server" edge="1" parent="prod-group" source="client-container" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=9;" target="server-container" value="WebSocket&#xa;REST API">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="server-mongo" edge="1" parent="prod-group" source="server-container" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=9;" target="mongo-container" value="DB Connection">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow1" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" value="git push">
+          <mxGeometry relative="1" x="0.1" y="10" as="geometry">
+            <mxPoint x="240" y="120" as="sourcePoint" />
+            <mxPoint x="280" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow2" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#d6b656;fontSize=10;fontStyle=1;" value="Webhook">
+          <mxGeometry relative="1" x="0.1" y="10" as="geometry">
+            <mxPoint x="520" y="120" as="sourcePoint" />
+            <mxPoint x="560" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow3" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#9673a6;fontSize=10;fontStyle=1;" value="Push&#xa;Images">
+          <mxGeometry relative="1" x="0.1" y="10" as="geometry">
+            <mxPoint x="960" y="140" as="sourcePoint" />
+            <mxPoint x="1000" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow4" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#9673a6;fontSize=10;fontStyle=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="iac-group" value="Trigger IaC">
+          <mxGeometry relative="1" x="0.1" y="10" as="geometry">
+            <mxPoint x="680" y="250" as="sourcePoint" />
+            <mxPoint x="680" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow5" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#b85450;fontSize=10;fontStyle=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="prod-group" value="Deploy">
+          <mxGeometry relative="1" x="0.1" y="10" as="geometry">
+            <mxPoint x="800" y="350" as="sourcePoint" />
+            <mxPoint x="840" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow6" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#82b366;fontSize=10;fontStyle=1;curved=1;" value="Pull Images">
+          <mxGeometry relative="1" x="-0.1835" y="5" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1100" y="260" />
+            </Array>
+            <mxPoint x="1100" y="240" as="sourcePoint" />
+            <mxPoint x="1020" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="monitor-group" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ffc107;fontSize=14;fontStyle=1;" value="Monitoring" vertex="1">
+          <mxGeometry height="100" width="160" x="180" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="monitor-icon" parent="monitor-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/2920/2920313.png;" value="" vertex="1">
+          <mxGeometry height="45" width="45" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="health-icon" parent="monitor-group" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/2913/2913133.png;" value="" vertex="1">
+          <mxGeometry height="45" width="45" x="90" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="user-icon" parent="1" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn-icons-png.flaticon.com/512/1077/1077012.png;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="1250" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="user-label" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" value="End User" vertex="1">
+          <mxGeometry height="30" width="70" x="1245" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="user-flow" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;strokeWidth=2;strokeColor=#28a745;fontSize=10;fontStyle=1;" value="HTTPS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1220" y="250" />
+            </Array>
+            <mxPoint x="1250" y="150" as="sourcePoint" />
+            <mxPoint x="1180" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#333333;" value="CI/CD Pipeline - DevOps Chat Application" vertex="1">
+          <mxGeometry height="40" width="400" x="480" y="580" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -190,11 +190,15 @@ const socketHandler = (io) => {
       }
     });
 
-    socket.on('call:answer', ({ answer }) => {
-      // Send answer back to the original caller
-      const conversations = Array.from(socket.rooms).filter(r => r !== socket.id);
-      socket.broadcast.emit('call:answered', { answer, from: socket.userId });
-      console.log(`✅ Call answered by ${socket.userId}`);
+    socket.on('call:answer', ({ answer, to }) => {
+      // Send answer back to the specific caller
+      if (to) {
+        const callerSocketId = connectedUsers.get(to);
+        if (callerSocketId) {
+          io.to(callerSocketId).emit('call:answered', { answer, from: socket.userId });
+          console.log(`✅ Call answered by ${socket.userId} to ${to}`);
+        }
+      }
     });
 
     socket.on('call:ice-candidate', ({ candidate, to }) => {
@@ -223,11 +227,10 @@ const socketHandler = (io) => {
         const recipientSocketId = connectedUsers.get(to);
         if (recipientSocketId) {
           io.to(recipientSocketId).emit('call:ended');
+          console.log(`📞 Call ended by ${socket.userId} to ${to}`);
         }
       }
-      // Broadcast to all if no specific target
-      socket.broadcast.emit('call:ended');
-      console.log(`📞 Call ended by ${socket.userId}`);
+      // Don't broadcast to everyone - only send to specific user
     });
 
     // Disconnect
