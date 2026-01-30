@@ -183,8 +183,8 @@ resource "aws_ecs_task_definition" "chat_app_task" {
       image = "${var.docker_hub_username}/chat-app-frontend:${var.image_tag}"
       portMappings = [
         {
-          containerPort = 3000
-          hostPort      = 3000
+          containerPort = 80
+          hostPort      = 80
         }
       ]
       logConfiguration = {
