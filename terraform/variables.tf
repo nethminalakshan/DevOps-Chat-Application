@@ -1,0 +1,17 @@
+variable "aws_region" {
+  description = "AWS region to deploy resources"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "docker_hub_username" {
+  description = "Docker Hub username"
+  type        = string
+  default     = "nlh29060"
+}
+
+variable "image_tag" {
+  description = "Docker image tag to deploy"
+  type        = string
+  default     = "latest"
+}

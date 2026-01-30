@@ -45,11 +45,11 @@ function Start-Jenkins {
     wsl docker-compose -f $JENKINS_COMPOSE_FILE up -d
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✓ Jenkins started successfully!" -ForegroundColor Green
-    Write-Host "Access Jenkins at: http://localhost:8090" -ForegroundColor Cyan
+        Write-Host "[OK] Jenkins started successfully!" -ForegroundColor Green
+        Write-Host "Access Jenkins at: http://localhost:8090" -ForegroundColor Cyan
         Write-Host "Get password with: .\jenkins.ps1 password" -ForegroundColor Yellow
     } else {
-        Write-Host "✗ Failed to start Jenkins" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to start Jenkins" -ForegroundColor Red
     }
 }
 
@@ -58,9 +58,9 @@ function Stop-Jenkins {
     wsl docker-compose -f $JENKINS_COMPOSE_FILE down
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✓ Jenkins stopped successfully!" -ForegroundColor Green
+        Write-Host "[OK] Jenkins stopped successfully!" -ForegroundColor Green
     } else {
-        Write-Host "✗ Failed to stop Jenkins" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to stop Jenkins" -ForegroundColor Red
     }
 }
 
@@ -69,9 +69,9 @@ function Restart-Jenkins {
     wsl docker restart $JENKINS_CONTAINER
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✓ Jenkins restarted successfully!" -ForegroundColor Green
+        Write-Host "[OK] Jenkins restarted successfully!" -ForegroundColor Green
     } else {
-        Write-Host "✗ Failed to restart Jenkins" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to restart Jenkins" -ForegroundColor Red
     }
 }
 
@@ -90,15 +90,13 @@ function Get-Password {
     $password = wsl docker exec $JENKINS_CONTAINER cat /var/jenkins_home/secrets/initialAdminPassword 2>$null
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "
-Initial Admin Password:
-======================
-$password
-======================
-" -ForegroundColor Green
-    Write-Host "Copy this password and paste it at http://localhost:8090" -ForegroundColor Yellow
+        Write-Host "Initial Admin Password:" -ForegroundColor Green
+        Write-Host "======================" -ForegroundColor Green
+        Write-Host "$password" -ForegroundColor Green
+        Write-Host "======================" -ForegroundColor Green
+        Write-Host "Copy this password and paste it at http://localhost:8090" -ForegroundColor Yellow
     } else {
-        Write-Host "✗ Could not get password. Is Jenkins running?" -ForegroundColor Red
+        Write-Host "[ERROR] Could not get password. Is Jenkins running?" -ForegroundColor Red
         Write-Host "Start Jenkins with: .\jenkins.ps1 start" -ForegroundColor Yellow
     }
 }
@@ -108,9 +106,9 @@ function Setup-Docker {
     wsl docker exec -it $JENKINS_CONTAINER bash /workspace/jenkins/setup-jenkins.sh
     
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✓ Docker setup completed!" -ForegroundColor Green
+        Write-Host "[OK] Docker setup completed!" -ForegroundColor Green
     } else {
-        Write-Host "✗ Docker setup failed" -ForegroundColor Red
+        Write-Host "[ERROR] Docker setup failed" -ForegroundColor Red
     }
 }
 

@@ -192,11 +192,8 @@ pipeline {
             }
             steps {
                 script {
-                    echo 'Deploying to development environment...'
-                    sh '''
-                        docker compose -f docker-compose.yml down || true
-                        docker compose -f docker-compose.yml up -d
-                    '''
+                    echo 'CI completed. Run Terraform in WSL for CD deployment.'
+                    // Note: CD is handled manually with Terraform in WSL
                 }
             }
         }
@@ -207,14 +204,9 @@ pipeline {
             }
             steps {
                 script {
-                    echo 'Deploying to production environment...'
-                    // Add production deployment steps
-                    input message: 'Deploy to Production?', ok: 'Deploy'
-                    sh '''
-                        docker compose -f docker-compose.yml down || true
-                        docker compose -f docker-compose.yml pull
-                        docker compose -f docker-compose.yml up -d
-                    '''
+                    echo 'CI completed. Run Terraform in WSL for CD deployment.'
+                    input message: 'Deploy to Production with Terraform?', ok: 'Proceed'
+                    // Note: CD is handled manually with Terraform in WSL
                 }
             }
         }

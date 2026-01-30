@@ -39,3 +39,9 @@ yarn-error.log*
 # Uploads
 /server/uploads/*
 !/server/uploads/.gitkeep
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.pem
