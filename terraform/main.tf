@@ -137,8 +137,36 @@ resource "aws_ecs_task_definition" "chat_app_task" {
           value = var.jwt_secret
         },
         {
+          name  = "SESSION_SECRET"
+          value = var.jwt_secret
+        },
+        {
           name  = "CLIENT_URL"
           value = "http://localhost:3000" 
+        },
+        {
+          name  = "GOOGLE_CLIENT_ID"
+          value = "dummy-google-client-id"
+        },
+        {
+          name  = "GOOGLE_CLIENT_SECRET"
+          value = "dummy-google-secret"
+        },
+        {
+          name  = "GOOGLE_CALLBACK_URL"
+          value = "http://localhost:5000/api/auth/google/callback"
+        },
+        {
+          name  = "GITHUB_CLIENT_ID"
+          value = "dummy-github-client-id"
+        },
+        {
+          name  = "GITHUB_CLIENT_SECRET"
+          value = "dummy-github-secret"
+        },
+        {
+          name  = "GITHUB_CALLBACK_URL"
+          value = "http://localhost:5000/api/auth/github/callback"
         }
       ]
       logConfiguration = {
