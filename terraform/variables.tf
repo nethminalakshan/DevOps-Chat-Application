@@ -15,3 +15,15 @@ variable "image_tag" {
   type        = string
   default     = "latest"
 }
+
+variable "mongodb_uri" {
+  description = "MongoDB Connection URI"
+  type        = string
+  sensitive   = true
+}
+
+variable "jwt_secret" {
+  description = "JWT Secret Key"
+  type        = string
+  sensitive   = true
+}

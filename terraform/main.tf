@@ -98,6 +98,12 @@ resource "aws_ecs_cluster" "chat_app_cluster" {
   name = "chat-app-cluster"
 }
 
+# CloudWatch Log Group
+resource "aws_cloudwatch_log_group" "chat_app_logs" {
+  name              = "/ecs/chat-app"
+  retention_in_days = 7
+}
+
 # Task Definition
 resource "aws_ecs_task_definition" "chat_app_task" {
   family                   = "chat-app-task"
@@ -121,8 +127,28 @@ resource "aws_ecs_task_definition" "chat_app_task" {
         {
           name  = "NODE_ENV"
           value = "production"
+        },
+        {
+          name  = "MONGODB_URI"
+          value = var.mongodb_uri
+        },
+        {
+          name  = "JWT_SECRET"
+          value = var.jwt_secret
+        },
+        {
+          name  = "CLIENT_URL"
+          value = "http://localhost:3000" 
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = "/ecs/chat-app"
+          "awslogs-region"        = var.aws_region
+          "awslogs-stream-prefix" = "backend"
+        }
+      }
     },
     {
       name  = "frontend"
@@ -133,6 +159,14 @@ resource "aws_ecs_task_definition" "chat_app_task" {
           hostPort      = 3000
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = "/ecs/chat-app"
+          "awslogs-region"        = var.aws_region
+          "awslogs-stream-prefix" = "frontend"
+        }
+      }
     }
   ])
 }
