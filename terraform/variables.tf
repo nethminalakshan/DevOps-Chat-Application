@@ -27,3 +27,47 @@ variable "jwt_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "client_url" {
+  description = "Frontend client URL (use AWS public IP)"
+  type        = string
+  default     = "http://localhost:3000"
+}
+
+variable "google_client_id" {
+  description = "Google OAuth Client ID"
+  type        = string
+  default     = ""
+}
+
+variable "google_client_secret" {
+  description = "Google OAuth Client Secret"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "google_callback_url" {
+  description = "Google OAuth Callback URL"
+  type        = string
+  default     = "http://localhost:5000/api/auth/google/callback"
+}
+
+variable "github_client_id" {
+  description = "GitHub OAuth Client ID"
+  type        = string
+  default     = ""
+}
+
+variable "github_client_secret" {
+  description = "GitHub OAuth Client Secret"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "github_callback_url" {
+  description = "GitHub OAuth Callback URL"
+  type        = string
+  default     = "http://localhost:5000/api/auth/github/callback"
+}
