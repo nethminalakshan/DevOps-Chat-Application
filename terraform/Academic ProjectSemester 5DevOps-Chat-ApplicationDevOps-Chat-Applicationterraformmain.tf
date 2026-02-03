@@ -1,0 +1,625 @@
+{
+    "service": {
+        "serviceArn": "arn:aws:ecs:us-east-1:524485341592:service/chat-app-cluster/chat-app-service",
+        "serviceName": "chat-app-service",
+        "clusterArn": "arn:aws:ecs:us-east-1:524485341592:cluster/chat-app-cluster",
+        "loadBalancers": [],
+        "serviceRegistries": [],
+        "status": "ACTIVE",
+        "desiredCount": 1,
+        "runningCount": 1,
+        "pendingCount": 0,
+        "launchType": "FARGATE",
+        "platformVersion": "LATEST",
+        "platformFamily": "Linux",
+        "taskDefinition": "arn:aws:ecs:us-east-1:524485341592:task-definition/chat-app-task:6",
+        "deploymentConfiguration": {
+            "deploymentCircuitBreaker": {
+                "enable": false,
+                "rollback": false
+            },
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 100,
+            "strategy": "ROLLING",
+            "bakeTimeInMinutes": 0
+        },
+        "deployments": [
+            {
+                "id": "ecs-svc/6029440896775566083",
+                "status": "PRIMARY",
+                "taskDefinition": "arn:aws:ecs:us-east-1:524485341592:task-definition/chat-app-task:6",
+                "desiredCount": 0,
+                "pendingCount": 0,
+                "runningCount": 0,
+                "failedTasks": 0,
+                "createdAt": "2026-02-03T16:20:05.811000+05:30",
+                "updatedAt": "2026-02-03T16:20:05.811000+05:30",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-09615daf5c72115af"
+                        ],
+                        "securityGroups": [
+                            "sg-03b91a6e1a2e3111a"
+                        ],
+                        "assignPublicIp": "ENABLED"
+                    }
+                },
+                "rolloutState": "IN_PROGRESS",
+                "rolloutStateReason": "ECS deployment ecs-svc/6029440896775566083 in progress."
+            },
+            {
+                "id": "ecs-svc/2987934886316351772",
+                "status": "ACTIVE",
+                "taskDefinition": "arn:aws:ecs:us-east-1:524485341592:task-definition/chat-app-task:6",
+                "desiredCount": 1,
+                "pendingCount": 0,
+                "runningCount": 1,
+                "failedTasks": 0,
+                "createdAt": "2026-02-03T16:10:44.403000+05:30",
+                "updatedAt": "2026-02-03T16:13:59.832000+05:30",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-09615daf5c72115af"
+                        ],
+                        "securityGroups": [
+                            "sg-03b91a6e1a2e3111a"
+                        ],
+                        "assignPublicIp": "ENABLED"
+                    }
+                },
+                "rolloutState": "COMPLETED",
+                "rolloutStateReason": "ECS deployment ecs-svc/2987934886316351772 completed."
+            }
+        ],
+        "roleArn": "arn:aws:iam::524485341592:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+        "events": [
+            {
+                "id": "347bad69-e78b-44a2-91c4-252cce97b5ab",
+                "createdAt": "2026-02-03T16:13:59.840000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "f0c6b103-c096-4e13-b94f-e1964756fbbc",
+                "createdAt": "2026-02-03T16:13:59.839000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/2987934886316351772) deployment completed."
+            },
+            {
+                "id": "cc0c1a5a-d05c-4e98-8a22-c44ab725dd33",
+                "createdAt": "2026-02-03T16:12:08.304000+05:30",
+                "message": "(service chat-app-service) has stopped 1 running tasks: (task e2665a35d574400aa188a5308b0b5180)."
+            },
+            {
+                "id": "c6b60562-80be-419e-9c85-67efdb316052",
+                "createdAt": "2026-02-03T16:11:07.329000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 3f2ca6496eaa4639af0cd3cd8f218abf)."
+            },
+            {
+                "id": "868f1d92-4cca-4f5a-832b-ce0017105fd2",
+                "createdAt": "2026-02-03T14:32:52.522000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "eca7d438-ba5c-4044-b380-581cbad39c7e",
+                "createdAt": "2026-02-03T08:32:24.511000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "2787e64e-1559-47e5-88da-3a0a9cfd473c",
+                "createdAt": "2026-02-03T02:32:21.915000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "c982fa3e-6b8f-48c0-abad-85903ce30572",
+                "createdAt": "2026-02-02T20:32:17.211000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "316db53b-b5f1-4435-9ff3-729664511208",
+                "createdAt": "2026-02-02T14:31:54.969000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "9c6f6a64-a46a-4f8b-91e8-d43569c7dcf5",
+                "createdAt": "2026-02-02T08:31:48.009000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "1e77a2be-6a7f-4bcd-8f86-04f1d3e31228",
+                "createdAt": "2026-02-02T02:31:32.530000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "d5bddbdc-c577-40b2-8808-8530de03ccc6",
+                "createdAt": "2026-02-01T20:31:22.017000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "b7dfc2ed-1e46-4b8f-aa7e-c74325ec8990",
+                "createdAt": "2026-02-01T14:31:21.605000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "cc7b3409-08ae-40ce-b73f-a876ad45b902",
+                "createdAt": "2026-02-01T08:31:21.452000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "9390e4cc-2829-4651-8366-a2fe9cdcd936",
+                "createdAt": "2026-02-01T02:31:12.686000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "27ab448e-94fd-415a-b4c3-c53aa7046c16",
+                "createdAt": "2026-01-31T20:30:43.795000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "74f08eb0-0bdc-45d2-9e13-ff6130c5bc5a",
+                "createdAt": "2026-01-31T14:30:18.157000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "783f3e52-165b-41d6-9c6a-97c896e8b6e9",
+                "createdAt": "2026-01-31T08:29:55.015000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "270612d7-c8b5-4d63-b6a4-92938a5574d2",
+                "createdAt": "2026-01-31T02:29:39.643000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "74b54943-8085-4c87-a631-ab0cd3f0576a",
+                "createdAt": "2026-01-30T20:29:15.375000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "c452ea5e-51ac-4c2b-95c1-fb63a04e9e58",
+                "createdAt": "2026-01-30T20:29:15.374000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/5834900692190785692) deployment completed."
+            },
+            {
+                "id": "8de5564e-6826-4e34-886e-708e81f10b6f",
+                "createdAt": "2026-01-30T20:27:43.199000+05:30",
+                "message": "(service chat-app-service) has stopped 1 running tasks: (task 81d8269b33b047c58c9fa4eaaf297b40)."
+            },
+            {
+                "id": "9cbb2876-5c29-4a82-9088-31478007c070",
+                "createdAt": "2026-01-30T20:26:42.691000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task e2665a35d574400aa188a5308b0b5180)."
+            },
+            {
+                "id": "958d7265-6e68-4f40-9ce0-8ab07d865a9d",
+                "createdAt": "2026-01-30T20:25:28.971000+05:30",
+                "message": "(service chat-app-service) has stopped 1 running tasks: (task f3c15f0d39d9470e98d811c4ac145608)."
+            },
+            {
+                "id": "1d463839-a92b-4958-a3b2-794cf75ede73",
+                "createdAt": "2026-01-30T20:24:28.682000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 81d8269b33b047c58c9fa4eaaf297b40)."
+            },
+            {
+                "id": "0998ce83-5946-431e-81a8-99b575658e1a",
+                "createdAt": "2026-01-30T20:17:29.071000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "bdea2911-942f-4e87-b439-2ba11c93ba0b",
+                "createdAt": "2026-01-30T20:17:29.070000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/6345575386799310095) deployment completed."
+            },
+            {
+                "id": "cdd74c68-f07a-454d-b803-029cc7f90807",
+                "createdAt": "2026-01-30T20:15:34.066000+05:30",
+                "message": "(service chat-app-service) has stopped 1 running tasks: (task dd5eb7c9d88b490ab696d958c536e545)."
+            },
+            {
+                "id": "a3000be0-fa73-49ec-8313-12a1da221517",
+                "createdAt": "2026-01-30T20:14:23.875000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task f3c15f0d39d9470e98d811c4ac145608)."
+            },
+            {
+                "id": "0012cf6f-3431-4658-8ba8-76d50ddb5095",
+                "createdAt": "2026-01-30T20:12:32.154000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "49b0b247-af97-4450-916d-090b0541927b",
+                "createdAt": "2026-01-30T20:12:32.153000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/7374135458540874236) deployment completed."
+            },
+            {
+                "id": "5893d7c5-d0a2-4c4d-86ee-27963662b2b7",
+                "createdAt": "2026-01-30T20:10:17.605000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 29969f64bb7c4d4b87f66add48cf138c)."
+            },
+            {
+                "id": "92a92b0a-feb5-4be6-919f-4d86aea8d077",
+                "createdAt": "2026-01-30T20:09:47.163000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task dd5eb7c9d88b490ab696d958c536e545)."
+            },
+            {
+                "id": "ca3cf1f8-2971-40ab-898d-3540d47d5560",
+                "createdAt": "2026-01-30T20:09:18.132000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 796514fad2934cd7ace1e1bfe29357ff)."
+            },
+            {
+                "id": "2775afb2-c8ad-4d46-8faf-886c864d44e4",
+                "createdAt": "2026-01-30T20:08:46.050000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "246dbfe7-3d42-442e-8cde-138fb1d5152f",
+                "createdAt": "2026-01-30T20:08:27.180000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 787a2ee7a77546ca855699ab02d50a23)."
+            },
+            {
+                "id": "d8f8cfc6-b121-4cef-ba1a-4f4916f352d0",
+                "createdAt": "2026-01-30T20:07:56.487000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "fccebdbd-d663-4051-900d-41b2e7d5a48b",
+                "createdAt": "2026-01-30T20:07:37.393000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 9a9eb622f15e40d2bbae04a1cc8d2419)."
+            },
+            {
+                "id": "adc3cc5a-092d-4e0c-87a6-4cd33e5a4740",
+                "createdAt": "2026-01-30T20:07:06.442000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "cf9f5e01-8b22-469d-8c5a-abe597de8af2",
+                "createdAt": "2026-01-30T20:06:39.653000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task ec41a182aace4ab2b793dcb2a1280bba)."
+            },
+            {
+                "id": "1df1a8d0-71a3-449f-9321-c2110782e2b1",
+                "createdAt": "2026-01-30T20:06:09.152000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "b455a596-b3ed-484c-b559-5341e72e13af",
+                "createdAt": "2026-01-30T20:05:40.539000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 2c4f97b5b23240bdab0dd74dc8757f11)."
+            },
+            {
+                "id": "d57e53ca-8c80-4128-8e00-5b2aebc6f5d6",
+                "createdAt": "2026-01-30T20:05:09.274000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "4a318ac1-97b7-47c3-bcc5-658b9b23a61e",
+                "createdAt": "2026-01-30T20:04:30.359000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 16a1393865bd4d838fbefebac3ea2554)."
+            },
+            {
+                "id": "9b7b0820-13bd-4fbc-96bf-4bc777d9c3d4",
+                "createdAt": "2026-01-30T20:03:58.220000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "522fcdeb-85b7-468b-b797-baab50dd891b",
+                "createdAt": "2026-01-30T20:03:28.463000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 822327523ac44d69abc2c3fb4ad14b1a)."
+            },
+            {
+                "id": "23738608-d3fe-4d93-be10-17cdce11bb2d",
+                "createdAt": "2026-01-30T20:02:55.970000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "e3db3eee-06af-4c48-bcf6-df345a9b8fea",
+                "createdAt": "2026-01-30T20:02:26.979000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 06b3b6bb1e67407a819be1f058e8779c)."
+            },
+            {
+                "id": "46fbd370-8614-4f4f-b3e4-40d444794caf",
+                "createdAt": "2026-01-30T20:01:56.161000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "65797d37-5870-4413-8802-e64c8e9aae96",
+                "createdAt": "2026-01-30T20:01:27.825000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 80a652d2d25f4bd7b4d9eac78103994b)."
+            },
+            {
+                "id": "b21d261c-0cc4-4a78-8dc3-508b63b75c4e",
+                "createdAt": "2026-01-30T20:00:55.284000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "fdb92e38-2cf5-4337-a282-db2547516874",
+                "createdAt": "2026-01-30T20:00:27.253000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 94a3cd672f82435981758e62db846a00)."
+            },
+            {
+                "id": "f9c96a76-7ba0-4586-b6f7-baec5ba75559",
+                "createdAt": "2026-01-30T19:59:55.550000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "e07c9586-02dc-4e9d-821a-f9a5264428a8",
+                "createdAt": "2026-01-30T19:59:36.267000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 0ea40837777446c6846b47d4a62aca73)."
+            },
+            {
+                "id": "48114274-1012-4e06-a00e-f43235cb2185",
+                "createdAt": "2026-01-30T19:59:06.017000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "f2418e1b-0ead-4afc-a10d-8b48437e9b78",
+                "createdAt": "2026-01-30T19:58:28.319000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 59d24248a5b64ab08d450bba9b483646)."
+            },
+            {
+                "id": "70744f1e-ac9f-41db-8c16-8eb328b8f5ab",
+                "createdAt": "2026-01-30T19:57:55.265000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "edb2499c-f46d-42e6-a8fa-f2bec96d3931",
+                "createdAt": "2026-01-30T19:57:26.515000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 0626167636f04e1bad675f1d423c3fee)."
+            },
+            {
+                "id": "35f633a4-e41c-40e0-bd41-111133c8ee10",
+                "createdAt": "2026-01-30T19:56:55.932000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "505d678d-a33e-4987-81ab-74f071ed92fb",
+                "createdAt": "2026-01-30T19:56:55.931000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/5345417221085903355) deployment completed."
+            },
+            {
+                "id": "86312ea6-5e8f-4d41-9adf-dd0f265340ae",
+                "createdAt": "2026-01-30T19:56:27.533000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 717d49980571417d84871fe95e34330b)."
+            },
+            {
+                "id": "14ac9dda-6855-4a31-80ba-e557b3e42973",
+                "createdAt": "2026-01-30T19:55:24.222000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task ff4f9f3b76f34f5db7d5ceaf83418380)."
+            },
+            {
+                "id": "2cf736c1-1a2d-49cb-a184-3180c7928ef8",
+                "createdAt": "2026-01-30T19:54:24.128000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 8c9c5d03033a4e19a7553740d0a80789)."
+            },
+            {
+                "id": "fde17068-c4ff-41bf-a84d-1581be4e72c1",
+                "createdAt": "2026-01-30T19:54:22.313000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 53f662bc0a864e92915353ead170839d)."
+            },
+            {
+                "id": "c1302460-4bdb-4522-ad3c-6a4bf7050986",
+                "createdAt": "2026-01-30T19:53:39.353000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "62a5a174-5bb9-4395-b129-118996767732",
+                "createdAt": "2026-01-30T19:53:20.934000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 0f49c7eaca6a45b994b1039121f85c31)."
+            },
+            {
+                "id": "e18be091-cfee-40c3-9027-8cd9b58d8847",
+                "createdAt": "2026-01-30T19:52:48.571000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "fbb882c4-7f47-49c9-895c-1eae907633e0",
+                "createdAt": "2026-01-30T19:52:19.178000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 33bce91ac81f4700bcc82873f9ee6108)."
+            },
+            {
+                "id": "d65753fa-05c3-4b3a-8e95-e149f2c3495e",
+                "createdAt": "2026-01-30T19:51:49.420000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "85a26b9b-7cb7-4a77-8482-d5a88a7d2cfb",
+                "createdAt": "2026-01-30T19:51:49.419000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/5914640027006733543) deployment completed."
+            },
+            {
+                "id": "92bf0280-d4fc-4a24-a5d1-f69cbcab849c",
+                "createdAt": "2026-01-30T19:51:19.504000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 07a86f955df949fc897bb3b7eda3e153)."
+            },
+            {
+                "id": "8e0422c9-c0ba-4f6f-ae1f-588ede1b861e",
+                "createdAt": "2026-01-30T19:50:38.593000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task b0ba059bf125458d8a308cba25b29136)."
+            },
+            {
+                "id": "e3f7f68b-8696-4a87-930c-9683a8aa7bfe",
+                "createdAt": "2026-01-30T19:49:47.648000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 30a888b9762e4d57930a4eca6272d4db)."
+            },
+            {
+                "id": "0c57ca60-de6e-4071-8139-ff2d07faa16f",
+                "createdAt": "2026-01-30T19:49:15.054000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "555087ba-e101-476c-a879-ccf5a58a506e",
+                "createdAt": "2026-01-30T19:48:47.105000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 371721c0a17c4abbad468da7831e1b99)."
+            },
+            {
+                "id": "075138d0-687e-4f7d-93c2-4f3f9ab061a8",
+                "createdAt": "2026-01-30T19:48:15.738000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "cec97673-af88-457a-bd67-01c0cae0b0cd",
+                "createdAt": "2026-01-30T19:47:57.340000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task d4c53ee9053d4af1987df5e64f4bd58e)."
+            },
+            {
+                "id": "cd8e3e8f-8d27-4857-a449-df497f521485",
+                "createdAt": "2026-01-30T19:47:25.586000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "bee1aa3f-8e4c-46a0-9e34-a3fc503750f7",
+                "createdAt": "2026-01-30T19:47:05.926000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task b9dc9a350253438fa61aec9cd9db9059)."
+            },
+            {
+                "id": "fc942801-70b6-4839-a0c5-952e2b2b0a1c",
+                "createdAt": "2026-01-30T19:46:34.508000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "ab68e1f1-a58d-497d-a129-e8a7f5e164fa",
+                "createdAt": "2026-01-30T19:46:05.023000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task dcd220e6d87449218fd5dd87a13ba9e6)."
+            },
+            {
+                "id": "c6d35ddf-3d2d-4291-a301-92f377ebe0e0",
+                "createdAt": "2026-01-30T19:45:33.754000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "7f7abfed-4744-4e83-bd9a-fb9534eb8a7c",
+                "createdAt": "2026-01-30T19:45:05.072000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task fb167e5a15c9481097b34b6dffb38213)."
+            },
+            {
+                "id": "e5330aef-be06-41e1-b474-59e0c73436b2",
+                "createdAt": "2026-01-30T19:44:32.184000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "c9427de4-5315-4976-8db8-e0c430cd6265",
+                "createdAt": "2026-01-30T19:44:02.265000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task fb54c4bcdaf041f6810ccba0be61a012)."
+            },
+            {
+                "id": "08995d2d-acbf-4e37-a6e2-fc4ed3c667b5",
+                "createdAt": "2026-01-30T19:43:30.154000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "6cf03466-cdae-4f42-bce7-2288dc80cef8",
+                "createdAt": "2026-01-30T19:43:11.008000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 9d0d959ac4be4a64a6e36c23c81a1b57)."
+            },
+            {
+                "id": "a9e8a77b-bf91-41f6-9d2e-3802cc810963",
+                "createdAt": "2026-01-30T19:42:39.317000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "f2e0021c-48ef-4d8a-90b3-1b7a7c60424b",
+                "createdAt": "2026-01-30T19:42:11.046000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 2badb86ddccc40539f224d4fadbf5961)."
+            },
+            {
+                "id": "112fb152-eefc-4d5a-b4c6-6787ebfe6983",
+                "createdAt": "2026-01-30T19:41:38.370000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "58180226-71cb-409b-86ef-13bb17b03791",
+                "createdAt": "2026-01-30T19:41:11.193000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 621571f1610d49e6bece09dfc2c98af7)."
+            },
+            {
+                "id": "fe05a258-e6ff-4c7d-b11f-5eb699294354",
+                "createdAt": "2026-01-30T19:40:38.849000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "b61f3ba6-977a-41a1-9a9e-62a0aea0693d",
+                "createdAt": "2026-01-30T19:40:10.307000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task d6344eee53444bb097fb28735ada4bb3)."
+            },
+            {
+                "id": "d4806970-3eaa-42cc-9264-cbd609396789",
+                "createdAt": "2026-01-30T19:39:38.854000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "23dcd803-7f57-4b86-ac00-2db8622adf24",
+                "createdAt": "2026-01-30T19:39:10.469000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task c2a168943e44485e8f8a87e3c8b311be)."
+            },
+            {
+                "id": "fe32ec0b-8723-49e8-b519-7f513cbc5258",
+                "createdAt": "2026-01-30T19:38:40.054000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "52b3d3d9-bd53-4e7f-ad87-a4b64d0144f6",
+                "createdAt": "2026-01-30T19:38:09.851000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 52d2a3e2a92b466680156f64522ad14b)."
+            },
+            {
+                "id": "5eebaf4e-bd7e-4a38-a807-70227f2b0018",
+                "createdAt": "2026-01-30T19:37:37.852000+05:30",
+                "message": "(service chat-app-service) has reached a steady state."
+            },
+            {
+                "id": "f8f882bc-9d99-4c7a-a74a-10ecc95dafb9",
+                "createdAt": "2026-01-30T19:37:37.851000+05:30",
+                "message": "(service chat-app-service) (deployment ecs-svc/9074304012610110291) deployment completed."
+            },
+            {
+                "id": "902b5eb1-f2d1-4c80-9101-251be98746e4",
+                "createdAt": "2026-01-30T19:37:17.712000+05:30",
+                "message": "(service chat-app-service) has started 1 tasks: (task 37526f3389254e5182d46499770b4cba)."
+            }
+        ],
+        "createdAt": "2026-01-30T19:02:17.470000+05:30",
+        "currentServiceRevisions": [
+            {
+                "arn": "arn:aws:ecs:us-east-1:524485341592:service-revision/chat-app-cluster/chat-app-service/6029440896775566083",
+                "requestedTaskCount": 0,
+                "runningTaskCount": 0,
+                "pendingTaskCount": 0
+            },
+            {
+                "arn": "arn:aws:ecs:us-east-1:524485341592:service-revision/chat-app-cluster/chat-app-service/2987934886316351772",
+                "requestedTaskCount": 1,
+                "runningTaskCount": 1,
+                "pendingTaskCount": 0
+            }
+        ],
+        "placementConstraints": [],
+        "placementStrategy": [],
+        "networkConfiguration": {
+            "awsvpcConfiguration": {
+                "subnets": [
+                    "subnet-09615daf5c72115af"
+                ],
+                "securityGroups": [
+                    "sg-03b91a6e1a2e3111a"
+                ],
+                "assignPublicIp": "ENABLED"
+            }
+        },
+        "healthCheckGracePeriodSeconds": 0,
+        "schedulingStrategy": "REPLICA",
+        "deploymentController": {
+            "type": "ECS"
+        },
+        "createdBy": "arn:aws:iam::524485341592:user/nethminalakshan2018@gmail.com",
+        "enableECSManagedTags": false,
+        "propagateTags": "NONE",
+        "enableExecuteCommand": false,
+        "availabilityZoneRebalancing": "DISABLED",
+        "resourceManagementType": "CUSTOMER"
+    }
+}
