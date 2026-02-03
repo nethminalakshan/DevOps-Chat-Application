@@ -185,6 +185,26 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy (Terraform)') {
+            steps {
+                dir('terraform') {
+                    sh '''
+                      set -e
+                      # Install terraform if missing
+                      if ! command -v terraform >/dev/null 2>&1; then
+                        curl -fsSL https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip -o tf.zip
+                        unzip -o tf.zip
+                        sudo install -m 0755 terraform /usr/local/bin/terraform
+                        rm -f tf.zip terraform
+                      fi
+
+                      terraform init -input=false
+                      terraform apply -auto-approve -input=false
+                    '''
+                }
+            }
+        }
         
         stage('Deploy to Development') {
             when {

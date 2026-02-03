@@ -13,20 +13,32 @@ provider "aws" {
 
 # VPC
 resource "aws_vpc" "chat_app_vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
   tags = {
     Name = "chat-app-vpc"
   }
 }
 
-# Subnets
-resource "aws_subnet" "public_subnet" {
-  vpc_id     = aws_vpc.chat_app_vpc.id
-  cidr_block = "10.0.1.0/24"
-  availability_zone = "${var.aws_region}a"
+# Subnets (need 2 public subnets for ALB)
+resource "aws_subnet" "public_subnet_a" {
+  vpc_id                  = aws_vpc.chat_app_vpc.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
   tags = {
-    Name = "chat-app-public-subnet"
+    Name = "chat-app-public-subnet-a"
+  }
+}
+
+resource "aws_subnet" "public_subnet_b" {
+  vpc_id                  = aws_vpc.chat_app_vpc.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "${var.aws_region}b"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "chat-app-public-subnet-b"
   }
 }
 
@@ -50,14 +62,22 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
-resource "aws_route_table_association" "public_rta" {
-  subnet_id      = aws_subnet.public_subnet.id
+resource "aws_route_table_association" "public_rta_a" {
+  subnet_id      = aws_subnet.public_subnet_a.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+resource "aws_route_table_association" "public_rta_b" {
+  subnet_id      = aws_subnet.public_subnet_b.id
   route_table_id = aws_route_table.public_rt.id
 }
 
 # Security Group
-resource "aws_security_group" "chat_app_sg" {
-  vpc_id = aws_vpc.chat_app_vpc.id
+resource "aws_security_group" "alb_sg" {
+  name        = "chat-app-alb-sg"
+  description = "ALB security group"
+  vpc_id      = aws_vpc.chat_app_vpc.id
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -65,22 +85,33 @@ resource "aws_security_group" "chat_app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Frontend port
-  }
-  ingress {
     from_port   = 5000
     to_port     = 5000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Backend port
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "chat_app_sg" {
+  vpc_id = aws_vpc.chat_app_vpc.id
+  # Only allow traffic from ALB to containers
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+  ingress {
+    from_port       = 5000
+    to_port         = 5000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
   }
   egress {
     from_port   = 0
@@ -90,6 +121,69 @@ resource "aws_security_group" "chat_app_sg" {
   }
   tags = {
     Name = "chat-app-sg"
+  }
+}
+
+# Application Load Balancer and Target Groups
+resource "aws_lb" "chat_app_alb" {
+  name               = "chat-app-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb_sg.id]
+  subnets            = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
+}
+
+resource "aws_lb_target_group" "frontend_tg" {
+  name        = "chat-frontend-tg"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = aws_vpc.chat_app_vpc.id
+  health_check {
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+  }
+}
+
+resource "aws_lb_target_group" "backend_tg" {
+  name        = "chat-backend-tg"
+  port        = 5000
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = aws_vpc.chat_app_vpc.id
+  health_check {
+    path                = "/api/health"
+    protocol            = "HTTP"
+    matcher             = "200,404"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+  }
+}
+
+resource "aws_lb_listener" "frontend_listener" {
+  load_balancer_arn = aws_lb.chat_app_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+  }
+}
+
+resource "aws_lb_listener" "backend_listener" {
+  load_balancer_arn = aws_lb.chat_app_alb.arn
+  port              = 5000
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.backend_tg.arn
   }
 }
 
@@ -142,7 +236,7 @@ resource "aws_ecs_task_definition" "chat_app_task" {
         },
         {
           name  = "CLIENT_URL"
-          value = var.client_url
+          value = "http://${aws_lb.chat_app_alb.dns_name}"
         },
         {
           name  = "GOOGLE_CLIENT_ID"
@@ -154,7 +248,7 @@ resource "aws_ecs_task_definition" "chat_app_task" {
         },
         {
           name  = "GOOGLE_CALLBACK_URL"
-          value = var.google_callback_url
+          value = "http://${aws_lb.chat_app_alb.dns_name}:5000/api/auth/google/callback"
         },
         {
           name  = "GITHUB_CLIENT_ID"
@@ -166,7 +260,7 @@ resource "aws_ecs_task_definition" "chat_app_task" {
         },
         {
           name  = "GITHUB_CALLBACK_URL"
-          value = var.github_callback_url
+          value = "http://${aws_lb.chat_app_alb.dns_name}:5000/api/auth/github/callback"
         }
       ]
       logConfiguration = {
@@ -208,12 +302,42 @@ resource "aws_ecs_service" "chat_app_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = [aws_subnet.public_subnet.id]
+    subnets          = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
     security_groups  = [aws_security_group.chat_app_sg.id]
     assign_public_ip = true
   }
 
+  load_balancer {
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+    container_name   = "frontend"
+    container_port   = 80
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.backend_tg.arn
+    container_name   = "backend"
+    container_port   = 5000
+  }
+
   depends_on = [aws_iam_role_policy_attachment.ecs_execution_role_policy]
+}
+
+# Helpful outputs
+output "alb_dns_name" {
+  description = "DNS name of the ALB"
+  value       = aws_lb.chat_app_alb.dns_name
+}
+
+output "frontend_url" {
+  value = "http://${aws_lb.chat_app_alb.dns_name}"
+}
+
+output "google_callback_url" {
+  value = "http://${aws_lb.chat_app_alb.dns_name}:5000/api/auth/google/callback"
+}
+
+output "github_callback_url" {
+  value = "http://${aws_lb.chat_app_alb.dns_name}:5000/api/auth/github/callback"
 }
 
 # IAM Role for ECS
