@@ -186,61 +186,80 @@ pipeline {
             }
         }
 
-        // NOTE: Terraform deployment is handled manually via WSL
-        // Jenkins is used for CI only (build, test, push Docker images)
-        // To deploy: Run "wsl terraform apply" in the terraform directory
-        
-        stage('CI Complete - Ready for Deployment') {
+        stage('Deploy to AWS (Terraform)') {
             steps {
                 script {
                     echo '========================================='
-                    echo 'CI Pipeline Completed Successfully! ✅'
+                    echo 'Starting Automated AWS Deployment...'
+                    echo '========================================='
+                }
+                
+                // Use AWS credentials stored in Jenkins
+                withCredentials([
+                    [
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'aws-credentials',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]
+                ]) {
+                    dir('terraform') {
+                        sh '''
+                          set -e
+                          
+                          # Install terraform if missing (without sudo)
+                          if ! command -v terraform >/dev/null 2>&1; then
+                            echo "Installing Terraform..."
+                            curl -fsSL https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip -o tf.zip
+                            unzip -o tf.zip
+                            chmod +x terraform
+                            export PATH=$PWD:$PATH
+                            echo "Terraform installed successfully"
+                          fi
+                          
+                          # Use local terraform if exists, otherwise use system
+                          TERRAFORM_BIN="$(command -v terraform || echo ./terraform)"
+                          echo "Using Terraform: $TERRAFORM_BIN"
+                          
+                          # Show Terraform version
+                          $TERRAFORM_BIN version
+                          
+                          # Initialize Terraform
+                          echo "Initializing Terraform..."
+                          $TERRAFORM_BIN init -input=false
+                          
+                          # Update image tag to use latest build
+                          echo "Updating image tag to: latest"
+                          
+                          # Deploy to AWS
+                          echo "Deploying to AWS ECS..."
+                          $TERRAFORM_BIN apply -auto-approve -input=false
+                          
+                          # Show deployment info
+                          echo ""
+                          echo "========================================="
+                          echo "Deployment Complete! ✅"
+                          echo "========================================="
+                          $TERRAFORM_BIN output -json | grep -E '(frontend_url|alb_dns_name)' || $TERRAFORM_BIN output
+                        '''
+                    }
+                }
+                
+                script {
+                    echo ''
+                    echo '========================================='
+                    echo 'Full CI/CD Pipeline Completed! 🎉'
                     echo '========================================='
                     echo ''
-                    echo 'Docker Images Built and Pushed:'
-                    echo "  - Backend:  nlh29060/chat-app-backend:${IMAGE_TAG}"
-                    echo "  - Frontend: nlh29060/chat-app-frontend:${IMAGE_TAG}"
+                    echo "Build Number: ${IMAGE_TAG}"
+                    echo 'Docker Images: Pushed ✅'
+                    echo 'AWS Deployment: Complete ✅'
                     echo ''
-                    echo 'Next Steps for Deployment:'
-                    echo '  1. Open WSL terminal'
-                    echo '  2. cd to terraform directory'
-                    echo '  3. Update image_tag in terraform.tfvars if needed'
-                    echo "  4. Run: terraform apply -auto-approve"
-                    echo ''
+                    echo 'Your application is now live!'
                     echo '========================================='
                 }
             }
         }
-        
-        /* TERRAFORM DEPLOYMENT - DISABLED (AWS credentials not configured in Jenkins)
-        stage('Deploy (Terraform)') {
-            steps {
-                dir('terraform') {
-                    sh '''
-                      set -e
-                      # Install terraform if missing (without sudo)
-                      if ! command -v terraform >/dev/null 2>&1; then
-                        echo "Installing Terraform..."
-                        curl -fsSL https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip -o tf.zip
-                        unzip -o tf.zip
-                        chmod +x terraform
-                        # Add to PATH for this session
-                        export PATH=$PWD:$PATH
-                        echo "Terraform installed at $PWD/terraform"
-                      fi
-                      
-                      # Use local terraform if exists, otherwise use system
-                      TERRAFORM_BIN="$(command -v terraform || echo ./terraform)"
-                      echo "Using Terraform: $TERRAFORM_BIN"
-                      
-                      $TERRAFORM_BIN version
-                      $TERRAFORM_BIN init -input=false
-                      $TERRAFORM_BIN apply -auto-approve -input=false
-                    '''
-                }
-            }
-        }
-        */
         
         stage('Deploy to Development') {
             when {
