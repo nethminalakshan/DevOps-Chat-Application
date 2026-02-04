@@ -194,18 +194,22 @@ pipeline {
                     echo '========================================='
                 }
                 
-                // Use AWS credentials stored in Jenkins
+                // Use AWS credentials stored in Jenkins (using simple username/password binding)
                 withCredentials([
-                    [
-                        $class: 'AmazonWebServicesCredentialsBinding',
+                    usernamePassword(
                         credentialsId: 'aws-credentials',
-                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]
+                        usernameVariable: 'AWS_ACCESS_KEY_ID',
+                        passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                    )
                 ]) {
                     dir('terraform') {
                         sh '''
                           set -e
+                          
+                          # Export AWS credentials
+                          export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+                          export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+                          export AWS_DEFAULT_REGION="us-east-1"
                           
                           # Install terraform if missing (without sudo)
                           if ! command -v terraform >/dev/null 2>&1; then
