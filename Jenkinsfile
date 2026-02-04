@@ -191,16 +191,24 @@ pipeline {
                 dir('terraform') {
                     sh '''
                       set -e
-                      # Install terraform if missing
+                      # Install terraform if missing (without sudo)
                       if ! command -v terraform >/dev/null 2>&1; then
+                        echo "Installing Terraform..."
                         curl -fsSL https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip -o tf.zip
                         unzip -o tf.zip
-                        sudo install -m 0755 terraform /usr/local/bin/terraform
-                        rm -f tf.zip terraform
+                        chmod +x terraform
+                        # Add to PATH for this session
+                        export PATH=$PWD:$PATH
+                        echo "Terraform installed at $PWD/terraform"
                       fi
-
-                      terraform init -input=false
-                      terraform apply -auto-approve -input=false
+                      
+                      # Use local terraform if exists, otherwise use system
+                      TERRAFORM_BIN="$(command -v terraform || echo ./terraform)"
+                      echo "Using Terraform: $TERRAFORM_BIN"
+                      
+                      $TERRAFORM_BIN version
+                      $TERRAFORM_BIN init -input=false
+                      $TERRAFORM_BIN apply -auto-approve -input=false
                     '''
                 }
             }
