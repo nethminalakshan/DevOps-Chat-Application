@@ -186,6 +186,33 @@ pipeline {
             }
         }
 
+        // NOTE: Terraform deployment is handled manually via WSL
+        // Jenkins is used for CI only (build, test, push Docker images)
+        // To deploy: Run "wsl terraform apply" in the terraform directory
+        
+        stage('CI Complete - Ready for Deployment') {
+            steps {
+                script {
+                    echo '========================================='
+                    echo 'CI Pipeline Completed Successfully! ✅'
+                    echo '========================================='
+                    echo ''
+                    echo 'Docker Images Built and Pushed:'
+                    echo "  - Backend:  nlh29060/chat-app-backend:${IMAGE_TAG}"
+                    echo "  - Frontend: nlh29060/chat-app-frontend:${IMAGE_TAG}"
+                    echo ''
+                    echo 'Next Steps for Deployment:'
+                    echo '  1. Open WSL terminal'
+                    echo '  2. cd to terraform directory'
+                    echo '  3. Update image_tag in terraform.tfvars if needed'
+                    echo "  4. Run: terraform apply -auto-approve"
+                    echo ''
+                    echo '========================================='
+                }
+            }
+        }
+        
+        /* TERRAFORM DEPLOYMENT - DISABLED (AWS credentials not configured in Jenkins)
         stage('Deploy (Terraform)') {
             steps {
                 dir('terraform') {
@@ -213,6 +240,7 @@ pipeline {
                 }
             }
         }
+        */
         
         stage('Deploy to Development') {
             when {
