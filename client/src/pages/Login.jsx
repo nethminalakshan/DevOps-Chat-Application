@@ -18,7 +18,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     email: '',
     username: '',
@@ -65,10 +65,10 @@ const Login = () => {
 
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { 
+      transition: {
         duration: 0.5,
         when: "beforeChildren",
         staggerChildren: 0.1
@@ -78,8 +78,8 @@ const Login = () => {
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
       transition: { duration: 0.4 }
     }
@@ -138,13 +138,13 @@ const Login = () => {
               <MessageCircle className="w-12 h-12 text-white" strokeWidth={2} />
             </div>
           </motion.div>
-          <motion.h1 
+          <motion.h1
             className="text-4xl font-bold bg-gradient-to-r from-gray-800 via-primary-600 to-purple-600 dark:from-white dark:via-primary-400 dark:to-purple-400 bg-clip-text text-transparent mb-2"
             variants={itemVariants}
           >
             ChatApp
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-gray-600 dark:text-gray-400 text-base"
             variants={itemVariants}
           >
@@ -153,28 +153,26 @@ const Login = () => {
         </motion.div>
 
         {/* Login Card */}
-        <motion.div 
+        <motion.div
           className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl rounded-2xl shadow-xl dark:shadow-dark-900/50 p-8 border border-gray-200/50 dark:border-gray-700/50"
           variants={itemVariants}
         >
           <div className="flex gap-2 mb-6 bg-gray-100 dark:bg-dark-700 rounded-xl p-1">
             <button
               onClick={() => setIsLogin(true)}
-              className={`flex-1 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
-                isLogin 
-                  ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-md' 
+              className={`flex-1 py-2.5 rounded-lg font-semibold transition-all duration-300 ${isLogin
+                  ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-md'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-              }`}
+                }`}
             >
               Sign In
             </button>
             <button
               onClick={() => setIsLogin(false)}
-              className={`flex-1 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
-                !isLogin 
-                  ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-md' 
+              className={`flex-1 py-2.5 rounded-lg font-semibold transition-all duration-300 ${!isLogin
+                  ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-md'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-              }`}
+                }`}
             >
               Sign Up
             </button>
@@ -311,27 +309,6 @@ const Login = () => {
             {' '}and{' '}
             <span className="text-primary-600 dark:text-primary-400 font-medium cursor-pointer hover:underline">Privacy Policy</span>
           </p>
-        </motion.div>
-
-        {/* Features */}
-        <motion.div 
-          variants={itemVariants}
-          className="mt-8 grid grid-cols-3 gap-4 text-center"
-        >
-          {[
-            { icon: '⚡', text: 'Fast & Secure' },
-            { icon: '💬', text: 'Real-time Chat' },
-            { icon: '📞', text: 'Voice Calls' }
-          ].map((feature, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05, y: -2 }}
-              className="bg-white dark:bg-dark-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="text-2xl mb-1">{feature.icon}</div>
-              <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">{feature.text}</p>
-            </motion.div>
-          ))}
         </motion.div>
       </motion.div>
     </div>
