@@ -215,8 +215,8 @@ pipeline {
                           if ! command -v aws >/dev/null 2>&1; then
                             echo "Installing AWS CLI..."
                             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                            unzip -q awscliv2.zip
-                            ./aws/install --bin-dir /tmp/aws-cli --install-dir /tmp/aws-cli-install || true
+                            unzip -o -q awscliv2.zip
+                            ./aws/install --bin-dir /tmp/aws-cli --install-dir /tmp/aws-cli-install --update || true
                             export PATH=/tmp/aws-cli:$PATH
                           fi
                           
