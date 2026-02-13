@@ -1,0 +1,103 @@
+{
+    "family": "chat-app-task",
+    "executionRoleArn": "arn:aws:iam::524485341592:role/ecs_execution_role",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512",
+    "containerDefinitions": [
+        {
+            "name": "backend",
+            "image": "nlh29060/chat-app-backend:18",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "GITHUB_CLIENT_ID",
+                    "value": "Ov23liGFqdvFV34eGEaN"
+                },
+                {
+                    "name": "GOOGLE_CLIENT_SECRET",
+                    "value": "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"
+                },
+                {
+                    "name": "JWT_SECRET",
+                    "value": "mysecretkey123"
+                },
+                {
+                    "name": "GOOGLE_CLIENT_ID",
+                    "value": "563521387761-s6008ucnkmnq9hst7799kp0is89n56b6.apps.googleusercontent.com"
+                },
+                {
+                    "name": "GITHUB_CLIENT_SECRET",
+                    "value": "2404ac37d48cf8c421045f4e79588afa968ecdb5"
+                },
+                {
+                    "name": "SESSION_SECRET",
+                    "value": "mysecretkey123"
+                },
+                {
+                    "name": "CLIENT_URL",
+                    "value": "http://chat-app-alb-1195695260.us-east-1.elb.amazonaws.com"
+                },
+                {
+                    "name": "GOOGLE_CALLBACK_URL",
+                    "value": "http://chat-app-alb-1195695260.us-east-1.elb.amazonaws.com:5000/api/auth/google/callback"
+                },
+                {
+                    "name": "GITHUB_CALLBACK_URL",
+                    "value": "http://chat-app-alb-1195695260.us-east-1.elb.amazonaws.com:5000/api/auth/github/callback"
+                },
+                {
+                    "name": "NODE_ENV",
+                    "value": "production"
+                },
+                {
+                    "name": "MONGODB_URI",
+                    "value": "mongodb+srv://nethminalakshan:nethminalakshan@cluster0.otpfy.mongodb.net/chat-app?retryWrites=true&w=majority"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/chat-app",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "backend"
+                }
+            }
+        },
+        {
+            "name": "frontend",
+            "image": "nlh29060/chat-app-frontend:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/chat-app",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "frontend"
+                }
+            }
+        }
+    ]
+}

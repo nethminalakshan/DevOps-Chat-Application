@@ -1,5 +1,7 @@
 # MERN Stack Chat Application 💬
 
+> Version: v18 - MongoDB connection optimizations
+
 A full-featured real-time chat application built with the MERN stack (MongoDB, Express, React, Node.js), Socket.io, and OAuth authentication.
 
 ## ✨ Features
