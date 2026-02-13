@@ -18,6 +18,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     email: '',
@@ -27,6 +28,12 @@ const Login = () => {
 
   const toggleTheme = () => {
     setTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+  };
+
+  const switchMode = () => {
+    setIsLogin(!isLogin);
+    setErrors({});
+    setFormData({ email: '', username: '', password: '' });
   };
 
   const handleGoogleLogin = () => {
@@ -39,10 +46,57 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear error for this field when user types
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Email validation
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    // Username validation (only for registration)
+    if (!isLogin) {
+      if (!formData.username) {
+        newErrors.username = 'Username is required';
+      } else if (formData.username.length < 3) {
+        newErrors.username = 'Username must be at least 3 characters';
+      } else if (formData.username.length > 20) {
+        newErrors.username = 'Username must be less than 20 characters';
+      } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+        newErrors.username = 'Username can only contain letters, numbers, and underscores';
+      }
+    }
+    
+    // Password validation
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    } else if (formData.password.length > 30) {
+      newErrors.password = 'Password must be less than 30 characters';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) {
+      toast.error('Please fix the errors in the form');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -57,7 +111,16 @@ const Login = () => {
       }
     } catch (error) {
       const message = error.response?.data?.error || 'Authentication failed';
-      toast.error(message);
+      
+      // Check if error is field-specific
+      if (error.response?.data?.field) {
+        setErrors({ [error.response.data.field]: message });
+      } else if (error.response?.data?.details) {
+        // Handle multiple field errors from validation
+        setErrors(error.response.data.details);
+      } else {
+        toast.error(message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -159,7 +222,8 @@ const Login = () => {
         >
           <div className="flex gap-2 mb-6 bg-gray-100 dark:bg-dark-700 rounded-xl p-1">
             <button
-              onClick={() => setIsLogin(true)}
+              type="button"
+              onClick={() => { if (!isLogin) switchMode(); }}
               className={`flex-1 py-2.5 rounded-lg font-semibold transition-all duration-300 ${isLogin
                   ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-md'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -168,7 +232,8 @@ const Login = () => {
               Sign In
             </button>
             <button
-              onClick={() => setIsLogin(false)}
+              type="button"
+              onClick={() => { if (isLogin) switchMode(); }}
               className={`flex-1 py-2.5 rounded-lg font-semibold transition-all duration-300 ${!isLogin
                   ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-md'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
@@ -197,9 +262,17 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Email address"
-                  required
-                  className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-all placeholder-gray-400 dark:placeholder-gray-500"
+                  className={`w-full pl-11 pr-4 py-3 border-2 ${errors.email ? 'border-red-500 dark:border-red-400' : 'border-gray-200 dark:border-gray-600'} bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 ${errors.email ? 'focus:ring-red-500 dark:focus:ring-red-400' : 'focus:ring-primary-500 dark:focus:ring-primary-400'} focus:border-transparent transition-all placeholder-gray-400 dark:placeholder-gray-500`}
                 />
+                {errors.email && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-red-500 dark:text-red-400 text-sm mt-1 ml-1"
+                  >
+                    {errors.email}
+                  </motion.p>
+                )}
               </div>
 
               {/* Username (Register only) */}
@@ -217,10 +290,17 @@ const Login = () => {
                     value={formData.username}
                     onChange={handleChange}
                     placeholder="Username"
-                    required={!isLogin}
-                    minLength={3}
-                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-all placeholder-gray-400 dark:placeholder-gray-500"
+                    className={`w-full pl-11 pr-4 py-3 border-2 ${errors.username ? 'border-red-500 dark:border-red-400' : 'border-gray-200 dark:border-gray-600'} bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 ${errors.username ? 'focus:ring-red-500 dark:focus:ring-red-400' : 'focus:ring-primary-500 dark:focus:ring-primary-400'} focus:border-transparent transition-all placeholder-gray-400 dark:placeholder-gray-500`}
                   />
+                  {errors.username && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500 dark:text-red-400 text-sm mt-1 ml-1"
+                    >
+                      {errors.username}
+                    </motion.p>
+                  )}
                 </motion.div>
               )}
 
@@ -233,9 +313,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Password"
-                  required
-                  minLength={6}
-                  className="w-full pl-11 pr-11 py-3 border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-all placeholder-gray-400 dark:placeholder-gray-500"
+                  className={`w-full pl-11 pr-11 py-3 border-2 ${errors.password ? 'border-red-500 dark:border-red-400' : 'border-gray-200 dark:border-gray-600'} bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 ${errors.password ? 'focus:ring-red-500 dark:focus:ring-red-400' : 'focus:ring-primary-500 dark:focus:ring-primary-400'} focus:border-transparent transition-all placeholder-gray-400 dark:placeholder-gray-500`}
                 />
                 <button
                   type="button"
@@ -244,6 +322,15 @@ const Login = () => {
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
+                {errors.password && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-red-500 dark:text-red-400 text-sm mt-1 ml-1"
+                  >
+                    {errors.password}
+                  </motion.p>
+                )}
               </div>
 
               {/* Submit Button */}
