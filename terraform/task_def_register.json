@@ -61,7 +61,7 @@
                 },
                 {
                     "name": "MONGODB_URI",
-                    "value": "mongodb+srv://nethminalakshan:nethminalakshan@cluster0.otpfy.mongodb.net/chat-app?retryWrites=true&w=majority"
+                    "value": "mongodb+srv://nethminalakshan2018_db_user:29060@chatapplicationdb.zlquwap.mongodb.net/chat-app?retryWrites=true&w=majority&appName=ChatApplicationDB"
                 }
             ],
             "mountPoints": [],
