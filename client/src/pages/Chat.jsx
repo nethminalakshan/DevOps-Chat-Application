@@ -95,7 +95,7 @@ const Chat = () => {
               <div className="relative text-8xl mb-6 floating">💬</div>
             </div>
             <h2 className="text-4xl font-bold bg-gradient-to-r from-primary-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4 animate-gradient bg-[length:200%_auto]">
-              Welcome to DevOps Chat
+              Welcome to DevOps Chat Application
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
               Connect with your team and start collaborating
